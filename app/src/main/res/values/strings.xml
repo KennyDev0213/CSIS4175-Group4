@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CSIS4175-Group4</string>
+    <string name="splash_txt1">CSIS 4175-001</string>
+    <string name="splash_txt2">Group 4 Project</string>
+    <string name="main_welcome">Welcome back!</string>
 </resources>
