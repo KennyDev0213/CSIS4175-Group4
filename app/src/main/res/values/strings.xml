@@ -1,6 +1,20 @@
 <resources>
+    <!--Splash Activity Strings-->
     <string name="app_name">CSIS4175-Group4</string>
     <string name="splash_txt1">CSIS 4175-001</string>
+    <!--Main Activity Strings-->
     <string name="splash_txt2">Group 4 Project</string>
     <string name="main_welcome">Welcome back!</string>
+    <!--Login Activity Strings-->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Sign up</string>
+    <string name="login_btn">Login</string>
+    <string name="signup_btn">Sign up</string>
+    <string name="goto_signup_btn">Go to Sign-Up</string>
+    <string name="goto_login">Go to login</string>
+    <string name="username_label">Username:</string>
+    <string name="email_label">Email:</string>
+    <string name="password_label">Password:</string>
+    <string name="confirm_pass_label">Confirm Password:</string>
+    <string name="forgot_password_btn">Forgot your password?</string>
 </resources>
