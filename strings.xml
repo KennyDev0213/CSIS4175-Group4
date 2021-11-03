@@ -1,0 +1,45 @@
+<resources>
+    <!--Splash Activity Strings-->
+    <string name="app_name">CSIS4175-Group4</string>
+    <string name="splash_txt1">CSIS 4175-001</string>
+    <!--Main Activity Strings-->
+    <string name="splash_txt2">Group 4 Project</string>
+    <string name="main_welcome">Welcome back!</string>
+    <!--Login Activity Strings-->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Sign up</string>
+    <string name="login_btn">Login</string>
+    <string name="goto_signup_btn">Go to Sign-Up</string>
+
+    <string name="username_label">Username:</string>
+    <string name="email_label">Email:</string>
+    <string name="password_label">Password:</string>
+    <string name="confirm_pass_label">Confirm Password:</string>
+    <string name="forgot_password_btn">Forgot your password?</string>
+    <!--    SignUp Activity Strings-->
+    <string name="SignUpTitle_txt">Sign up</string>
+    <string name="signup_btn">Sign up!</string>
+    <string name="goto_login_btn">Go to Login</string>
+    <!--    from class-->
+    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+    <string name="auth_failed">Authentication error, Please enter a valid email and password or sign up</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_link_to_login">Already registered. Login !!</string>
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="btn_sign_up">Sign Up !!</string>
+    <string name="err_msg_email">Enter a valid email.</string>
+    <string name="err_msg_required">Required !!</string>
+    <string name="err_msg_password">Enter a valid password with min 6 characters.</string>
+    <string name="btn_link_to_signup">Don\'t have an account, Signup !!</string>
+    <string name="title_activity_password_reset">PasswordResetActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
