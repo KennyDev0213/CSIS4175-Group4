@@ -17,6 +17,7 @@ public class SplashActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        //TODO replace this method to initialize all the backend components first as needed then launch the app
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -24,5 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(main);
             }
         }, 3000);
+
+        finish();
     }
 }

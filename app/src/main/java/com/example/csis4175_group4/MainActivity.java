@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
         appView = new ViewModelProvider(this).get(AppViewModel.class);
 
         if(!appView.isLoggedIn()){
-            Intent loginActivity = new Intent(this, LoginActivity.class);
+            Intent loginActivity = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginActivity);
+            finish();
+        }else{
+            menu = findViewById(R.id.main_menu);
         }
-
-        menu = findViewById(R.id.main_menu);
-
     }
 }

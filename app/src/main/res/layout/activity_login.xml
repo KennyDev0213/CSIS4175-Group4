@@ -46,6 +46,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +80,7 @@
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
@@ -90,6 +92,7 @@
         android:layout_marginTop="108dp"
         android:text="@string/username_label"
         android:textSize="24sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,6 +126,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/confirm_pass_label"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_label" />
 
