@@ -18,7 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PictureManagerActivity"
             android:exported="true" />
@@ -27,8 +26,10 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"/>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
