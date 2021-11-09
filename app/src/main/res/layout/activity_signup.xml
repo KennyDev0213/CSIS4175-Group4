@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity">
+    tools:context=".SignupActivity"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/SignUp_title"
@@ -23,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
+        android:backgroundTint="@color/colorGray"
+        android:textColor="@color/black"
         android:text="@string/signup_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_password_label" />
@@ -32,6 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="60dp"
         android:layout_marginTop="50dp"
+        android:backgroundTint="@color/colorGray"
+        android:textColor="@color/black"
         android:text="@string/goto_login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/conf_password_input" />
@@ -67,6 +72,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_input" />
@@ -79,6 +85,7 @@
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
@@ -134,5 +141,7 @@
         android:layout_marginBottom="80dp"
         android:text="@string/forgot_password_btn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/colorGray"
+        android:textColor="@color/black"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
