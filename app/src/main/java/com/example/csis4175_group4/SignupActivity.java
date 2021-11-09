@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,15 +16,22 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
+    private FirebaseUser fUser;
+    private DatabaseReference fDatabaseRef;
 
     private TextInputLayout inputEmail, inputPassword,inputConfirmPassword, inputUserName;
 //    private EditText signupInputEmail;
@@ -40,6 +48,8 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         auth = FirebaseAuth.getInstance();
+        fUser = auth.getCurrentUser();
+        fDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
@@ -72,6 +82,8 @@ public class SignupActivity extends AppCompatActivity {
     private void submitForm(){
         String email = inputEmail.getEditText().getText().toString().trim();
         String password = inputPassword.getEditText().getText().toString().trim();
+        String username = inputUserName.getEditText().getText().toString();
+
         Boolean checkErr = true;
         while(checkErr){
             checkUsername();
@@ -97,9 +109,12 @@ public class SignupActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 if(task.isSuccessful()){
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    if(user == null) {
+                                    if(fUser == null) {
                                     } else {
+                                        HashMap hashMap = new HashMap();
+                                        hashMap.put("username",username);
+                                        fDatabaseRef.child(fUser.getUid()).updateChildren(hashMap);
+
                                         auth.getCurrentUser().sendEmailVerification();
                                         Toast.makeText(getApplicationContext(),
                                                 "Verification email sent",
@@ -112,7 +127,7 @@ public class SignupActivity extends AppCompatActivity {
                             }
                         });
         Toast.makeText(getApplicationContext(),
-                "You are successfully registered!",
+                "You have some errors in your registered!",
                 Toast.LENGTH_SHORT).show();
 
     }
