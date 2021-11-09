@@ -15,24 +15,26 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Boolean LoginState = false;
+//    private Boolean LoginState = false;
 
     private TextView title;
 
-    private EditText usernameInput;
-    private EditText emailInput;
-    private EditText passwordInput;
-    private EditText confirmPasswordInput;
+    private TextInputLayout emailInput, passwordInput;
+//    private EditText usernameInput;
+//    private EditText emailInput;
+//    private EditText passwordInput;
+//    private EditText confirmPasswordInput;
 
-    private String username;
-    private String email;
-    private String password;
-    private String confPassword;
+//    private String username;
+//    private String email;
+//    private String password;
+//    private String confPassword;
 
     private Button loginBtn;
     private Button signupBtn;
@@ -47,11 +49,12 @@ public class LoginActivity extends AppCompatActivity {
 
         //Initialize all the components
         this.title = findViewById(R.id.login_title);
+        this.auth = FirebaseAuth.getInstance();
 
-        this.usernameInput = findViewById(R.id.username_input);
-        this.emailInput = findViewById(R.id.email_input);
-        this.passwordInput = findViewById(R.id.password_input);
-        this.confirmPasswordInput = findViewById(R.id.conf_password_input);
+//        this.usernameInput = findViewById(R.id.username_input);
+        this.emailInput = findViewById(R.id.inputEmail);
+        this.passwordInput = findViewById(R.id.inputPassword);
+//        this.confirmPasswordInput = findViewById(R.id.conf_password_input);
 
         this.loginBtn = findViewById(R.id.logIn_btn);
         this.signupBtn = findViewById(R.id.signUp_btn);
@@ -59,12 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //add login functionality
         this.loginBtn.setOnClickListener( view -> {
-            if(!LoginState){
-                //TODO request information from the db and then log in
-                submitForm();
-            }else{
-                //TODO verify the user input then sign them in
-            }
+            submitForm();
         });
 
         //add signup functionality
@@ -117,14 +115,20 @@ public class LoginActivity extends AppCompatActivity {
 //        findViewById(R.id.pass_reset_btn).setVisibility(View.INVISIBLE);
 //    }
     public void submitForm(){
-        String email = emailInput.getText().toString().trim();
-        String password = passwordInput.getText().toString().trim();
-
-        if(!checkEmail()){
-            return;
-        }
-        if(!checkPassword()){
-            return;
+        String email = emailInput.getEditText().getText().toString().trim();
+        String password = passwordInput.getEditText().getText().toString().trim();
+        Boolean checkErr = true;
+        while(checkErr){
+            checkEmail();
+            checkPassword();
+            if(
+                    checkEmail()&&
+                    checkPassword()
+            ){
+                checkErr = false;
+            }else{
+                return;
+            }
         }
         auth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -141,22 +145,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkEmail() {
-        String email = emailInput.getText().toString().trim();
+        String email = emailInput.getEditText().getText().toString().trim();
         if (email.isEmpty() || !isEmailValid(email)) {
-            emailInput.setError(getString(R.string.err_msg_required));
-            requestFocus(emailInput);
+            emailInput.setError(getString(R.string.err_msg_email));
             return false;
         }
+        emailInput.setError(null);
         return true;
     }
 
     private boolean checkPassword() {
-        String password = passwordInput.getText().toString().trim();
+        String password = passwordInput.getEditText().getText().toString().trim();
         if (password.isEmpty() || !isPasswordValid(password)) {
-            passwordInput.setError(getString(R.string.err_msg_required));
-            requestFocus(passwordInput);
+            passwordInput.setError(getString(R.string.err_msg_password));
+//            requestFocus(passwordInput);
             return false;
         }
+        passwordInput.setError(null);
         return true;
     }
 
@@ -168,9 +173,9 @@ public class LoginActivity extends AppCompatActivity {
     private static boolean isPasswordValid(String password) {
         return (password.length() >= 6);
     }
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
+//    private void requestFocus(View view) {
+//        if (view.requestFocus()) {
+//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        }
+//    }
 }

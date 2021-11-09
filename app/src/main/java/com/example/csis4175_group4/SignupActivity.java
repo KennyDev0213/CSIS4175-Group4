@@ -78,10 +78,10 @@ public class SignupActivity extends AppCompatActivity {
             checkEmail();
             checkPassword();
             confirmPassword();
-            if(     inputUserName.getError() == null&&
-                    inputEmail.getError() == null&&
-                    inputPassword.getError() == null&&
-                    inputConfirmPassword.getError() == null
+            if(     checkUsername()&&
+                    checkEmail()&&
+                    checkPassword()&&
+                    confirmPassword()
             ){
                 checkErr = false;
             }else{
@@ -120,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
     private boolean checkEmail() {
         String email = inputEmail.getEditText().getText().toString().trim();
         if (email.isEmpty() || !isEmailValid(email)) {
-            inputEmail.setError("Please enter a valid email address!");
+            inputEmail.setError(getString(R.string.err_msg_email));
             return false;
         }
         inputEmail.setError(null);
@@ -130,7 +130,7 @@ public class SignupActivity extends AppCompatActivity {
     private boolean checkPassword() {
         String password = inputPassword.getEditText().getText().toString().trim();
         if (password.isEmpty() || !isPasswordValid(password)) {
-            inputPassword.setError("Password must at least 6 characters!");
+            inputPassword.setError(getString(R.string.err_msg_password));
             return false;
         }
         inputPassword.setError(null);
@@ -139,7 +139,7 @@ public class SignupActivity extends AppCompatActivity {
     private boolean checkUsername() {
         String username = inputUserName.getEditText().getText().toString();
         if (username.isEmpty()) {
-            inputUserName.setError("Create your username here!");
+            inputUserName.setError(getString(R.string.err_msg_username));
             return false;
         }
         inputUserName.setError(null);
@@ -151,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
         String confirmP = inputConfirmPassword.getEditText().getText().toString().trim();
 
         if (!password.equals(confirmP)) {
-            inputConfirmPassword.setError("Password does not match!");
+            inputConfirmPassword.setError(getString(R.string.err_msg_confrimPassword));
             return false;
         }
         inputConfirmPassword.setError(null);
