@@ -25,10 +25,11 @@ public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
-    private EditText signupInputEmail;
-    private EditText signupInputPassword;
-    private EditText PasswordConfirm;
-    private EditText UserNametxt;
+    private TextInputLayout inputEmail, inputPassword,inputConfirmPassword, inputUserName;
+//    private EditText signupInputEmail;
+//    private EditText signupInputPassword;
+//    private EditText PasswordConfirm;
+//    private EditText UserNametxt;
 
     private Button btnSignUp;
     private Button btnLinkToLogIn;
@@ -40,16 +41,19 @@ public class SignupActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        signupInputEmail = (EditText) findViewById(R.id.email_input);
-        signupInputPassword = (EditText) findViewById(R.id.password_input);
-        PasswordConfirm = findViewById(R.id.conf_password_input);
-        UserNametxt = findViewById(R.id.username_input);
+        inputEmail = findViewById(R.id.inputEmail);
+        inputPassword = findViewById(R.id.inputPassword);
+        inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
+        inputUserName = findViewById(R.id.inputUserName);
+//        signupInputEmail = (EditText) findViewById(R.id.email_input);
+//        signupInputPassword = (EditText) findViewById(R.id.password_input);
+//        PasswordConfirm = findViewById(R.id.conf_password_input);
+//        UserNametxt = findViewById(R.id.username_input);
 
         btnSignUp = (Button) findViewById(R.id.SignUp_btn);
         btnLinkToLogIn = (Button) findViewById(R.id.Login_btn);
 
         btnLinkToLogIn.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
@@ -66,21 +70,24 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void submitForm(){
-        String email = signupInputEmail.getText().toString().trim();
-        String password = signupInputPassword.getText().toString().trim();
-        if(!checkUsername()){
-            return;
+        String email = inputEmail.getEditText().getText().toString().trim();
+        String password = inputPassword.getEditText().getText().toString().trim();
+        Boolean checkErr = true;
+        while(checkErr){
+            checkUsername();
+            checkEmail();
+            checkPassword();
+            confirmPassword();
+            if(     inputUserName.getError() == null&&
+                    inputEmail.getError() == null&&
+                    inputPassword.getError() == null&&
+                    inputConfirmPassword.getError() == null
+            ){
+                checkErr = false;
+            }else{
+                return;
+            }
         }
-        if(!checkEmail()){
-            return;
-        }
-        if(!checkPassword()){
-            return;
-        }
-        if(!confirmPassword()){
-            return;
-        }
-
 
 
         auth.createUserWithEmailAndPassword(email,password)
@@ -111,43 +118,43 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkEmail() {
-        String email = signupInputEmail.getText().toString().trim();
+        String email = inputEmail.getEditText().getText().toString().trim();
         if (email.isEmpty() || !isEmailValid(email)) {
-            signupInputEmail.setError(getString(R.string.err_msg_required));
-            requestFocus(signupInputEmail);
+            inputEmail.setError("Please enter a valid email address!");
             return false;
         }
+        inputEmail.setError(null);
         return true;
     }
 
     private boolean checkPassword() {
-        String password = signupInputPassword.getText().toString().trim();
+        String password = inputPassword.getEditText().getText().toString().trim();
         if (password.isEmpty() || !isPasswordValid(password)) {
-            signupInputPassword.setError(getString(R.string.err_msg_required));
-            requestFocus(signupInputPassword);
+            inputPassword.setError("Password must at least 6 characters!");
             return false;
         }
+        inputPassword.setError(null);
         return true;
     }
     private boolean checkUsername() {
-        String username = UserNametxt.getText().toString();
+        String username = inputUserName.getEditText().getText().toString();
         if (username.isEmpty()) {
-            UserNametxt.setError(getString(R.string.err_msg_required));
-            requestFocus(UserNametxt);
+            inputUserName.setError("Create your username here!");
             return false;
         }
+        inputUserName.setError(null);
         return true;
     }
 
     private boolean confirmPassword() {
-        String password = signupInputPassword.getText().toString().trim();
-        String confirmP = PasswordConfirm.getText().toString().trim();
+        String password = inputPassword.getEditText().getText().toString().trim();
+        String confirmP = inputConfirmPassword.getEditText().getText().toString().trim();
 
         if (!password.equals(confirmP)) {
-            PasswordConfirm.setError(getString(R.string.err_msg_required));
-            requestFocus(PasswordConfirm);
+            inputConfirmPassword.setError("Password does not match!");
             return false;
         }
+        inputConfirmPassword.setError(null);
         return true;
     }
 
@@ -157,11 +164,5 @@ public class SignupActivity extends AppCompatActivity {
 
     private static boolean isPasswordValid(String password) {
         return (password.length() >= 6);
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
     }
 }
