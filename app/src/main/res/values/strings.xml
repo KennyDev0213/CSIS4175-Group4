@@ -30,8 +30,10 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="btn_sign_up">Sign Up !!</string>
     <string name="err_msg_email">Enter a valid email.</string>
+    <string name="err_msg_username">Enter a valid name.</string>
     <string name="err_msg_required">Required !!</string>
     <string name="err_msg_password">Enter a valid password with min 6 characters.</string>
+    <string name="err_msg_confrimPassword">Password does not match.</string>
     <string name="btn_link_to_signup">Don\'t have an account, Signup !!</string>
     <string name="title_activity_password_reset">PasswordResetActivity</string>
     <!-- Strings used for fragments for navigation -->
