@@ -127,7 +127,7 @@ public class SignupActivity extends AppCompatActivity {
                             }
                         });
         Toast.makeText(getApplicationContext(),
-                "You have some errors in your registered!",
+                "You have successful registered!",
                 Toast.LENGTH_SHORT).show();
 
     }
