@@ -7,10 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.R;
@@ -20,16 +17,13 @@ import java.util.List;
 public class GroupListAdapter extends RecyclerView.Adapter{
     List<Group> groupList;
 
-    GroupDetailListener groupDetailListener;
-    interface GroupDetailListener {
-        void onGroupDetailClick(Group group);
-    }
-    public void setGroupDetailListener(GroupDetailListener groupDetailListener) {
-        this.groupDetailListener = groupDetailListener;
-    }
-
     public GroupListAdapter(List<Group> groupList) {
         this.groupList = groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,8 +41,8 @@ public class GroupListAdapter extends RecyclerView.Adapter{
         GroupViewHolder groupViewHolder = (GroupViewHolder) holder;
         Group curGroup = groupList.get(position);
         groupViewHolder.txtViewGroupName.setText(curGroup.getName());
-        groupViewHolder.imgBtnGroupDetail.setOnClickListener((view)->{
-            //groupDetailListener.onGroupDetailClick(curGroup);
+        groupViewHolder.imgBtnGroupDetail.setOnClickListener(view ->{
+            Navigation.findNavController(view).navigate(R.id.action_GroupListFragment_to_GroupDetailFragment);
         });
     }
 

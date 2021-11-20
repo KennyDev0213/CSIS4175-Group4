@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupListFragment extends Fragment implements GroupListAdapter.GroupDetailListener {
+public class GroupListFragment extends Fragment {
 
     List<Group> groupList;
     RecyclerView recyclerView;
@@ -55,10 +56,12 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Grou
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_group_list, container, false);
 
+        groupList = new ArrayList<>();
+        groupListAdapter = new GroupListAdapter(groupList);
+
         recyclerView = rootView.findViewById(R.id.recyclerViewGroupList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        groupList = new ArrayList<>();
+        recyclerView.setAdapter((groupListAdapter));
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("group");
@@ -69,9 +72,7 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Grou
                     Group group = child.getValue(Group.class);
                     groupList.add(group);
                 }
-                groupListAdapter = new GroupListAdapter(groupList);
-                //groupListAdapter.setGroupDetailListener((GroupListAdapter.GroupDetailListener)this);
-                recyclerView.setAdapter((groupListAdapter));
+                groupListAdapter.setGroupList(groupList);
             }
 
             @Override
@@ -81,13 +82,5 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Grou
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onGroupDetailClick(Group group) {
-        GroupDetailFragment groupDetailFragment = GroupDetailFragment.newInstance();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_group_detail_container, groupDetailFragment).addToBackStack(null).commit();
     }
 }
