@@ -7,15 +7,30 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.R;
+import com.example.csis4175_group4.viewmodels.AppViewModel;
 
 import java.util.List;
 
 public class GroupListAdapter extends RecyclerView.Adapter{
-    List<Group> groupList;
+    private List<Group> groupList;
+    private ItemClickListener mListener;
+
+    interface ItemClickListener {
+        void onListItemClick(Group group, int position);
+    }
+
+    public ItemClickListener getListener() {
+        return mListener;
+    }
+
+    public void setListener(ItemClickListener mListener) {
+        this.mListener = mListener;
+    }
 
     public GroupListAdapter(List<Group> groupList) {
         this.groupList = groupList;
@@ -42,6 +57,7 @@ public class GroupListAdapter extends RecyclerView.Adapter{
         Group curGroup = groupList.get(position);
         groupViewHolder.txtViewGroupName.setText(curGroup.getName());
         groupViewHolder.imgBtnGroupDetail.setOnClickListener(view ->{
+            mListener.onListItemClick(curGroup, position);
             Navigation.findNavController(view).navigate(R.id.action_GroupListFragment_to_GroupDetailFragment);
         });
     }
