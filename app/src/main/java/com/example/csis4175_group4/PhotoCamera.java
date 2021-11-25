@@ -28,6 +28,7 @@ public class PhotoCamera extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(PhotoCamera.this,LoginActivity.class);
                 startActivity(intent);
+                //
             }
         });
     }
