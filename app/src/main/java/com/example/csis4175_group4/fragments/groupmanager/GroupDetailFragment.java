@@ -13,12 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.GroupManagerActivity;
 import com.example.csis4175_group4.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -119,11 +121,22 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
             NavHostFragment.findNavController(GroupDetailFragment.this)
                     .navigate(R.id.action_GroupDetailFragment_to_GroupListFragment);
         });
+
+        FloatingActionButton fabAddMember = view.findViewById(R.id.fabAddMember);
+        fabAddMember.setOnClickListener((View v) -> {
+            Bundle bundle= new Bundle();
+            bundle.putInt("NUMBER_OF_MEMBER", memberList.size());
+            Navigation.findNavController(v).navigate(R.id.action_GroupDetailFragment_to_newMemberFragment, bundle);
+        });
     }
 
     @Override
-    public void onListItemClick(Member member, int position) {
+    public void onListItemDelete(Member member, int position) {
+        Log.d("GroupListFragment", "Delete Position: " + position);
+        Log.d("GroupListFragment", "Delete Member name: " + member.getUserId());
+
         memberList.remove(position);
         memberListAdapter.setMemberList(memberList);
+        mFirebaseDatabase.child(""+position).removeValue();
     }
 }
