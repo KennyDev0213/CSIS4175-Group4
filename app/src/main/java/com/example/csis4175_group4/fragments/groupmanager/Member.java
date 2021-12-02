@@ -1,5 +1,8 @@
 package com.example.csis4175_group4.fragments.groupmanager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Member {
     private String userid;
     private String role;
@@ -26,5 +29,13 @@ public class Member {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("userid", userid);
+        result.put("role", role);
+
+        return result;
     }
 }

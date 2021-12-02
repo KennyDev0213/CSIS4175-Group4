@@ -1,6 +1,8 @@
 package com.example.csis4175_group4.fragments.groupmanager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Group {
     private String name;
@@ -30,5 +32,13 @@ public class Group {
 
     public void setMembers(ArrayList<Member> members) {
         this.members = members;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("members", members);
+
+        return result;
     }
 }

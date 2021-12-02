@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,8 +36,8 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     private MemberListAdapter memberListAdapter;
     private GroupViewModel groupSharedViewModel;
 
-    private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
 
     private static final String TAG = GroupManagerActivity.class.getSimpleName();
 
@@ -58,17 +60,6 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_group_detail, container, false);
-
-        memberList = new ArrayList<>();
-        memberListAdapter = new MemberListAdapter(memberList);
-        memberListAdapter.setListener(this);
-
-        txtViewGroupNameHeader = rootView.findViewById(R.id.txtViewGroupNameHeader);
-
-        recyclerView = rootView.findViewById(R.id.recyclerViewMemberList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter((memberListAdapter));
-
         return rootView;
     }
 
@@ -76,7 +67,22 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        memberList = new ArrayList<>();
+        memberListAdapter = new MemberListAdapter(memberList);
+        memberListAdapter.setListener(this);
+
+        txtViewGroupNameHeader = view.findViewById(R.id.txtViewGroupNameHeader);
+
+        recyclerView = view.findViewById(R.id.recyclerViewMemberList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setAdapter((memberListAdapter));
+
+
         groupSharedViewModel = new ViewModelProvider(requireActivity()).get(GroupViewModel.class);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("group").child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("members");
+
         groupSharedViewModel.getSelectedGroup().observe(getViewLifecycleOwner(), new Observer<Group>() {
             @Override
             public void onChanged(Group group) {
@@ -84,9 +90,6 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
                 Log.d("GroupDetailFragment", "Group Name: " + groupSharedViewModel.getSelectedGroup().getValue().getName());
 
                 txtViewGroupNameHeader.setText(groupSharedViewModel.getSelectedGroup().getValue().getName());
-
-                mFirebaseInstance = FirebaseDatabase.getInstance();
-                mFirebaseDatabase = mFirebaseInstance.getReference("group").child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("members");
                 mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -102,9 +105,20 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
 
                     }
                 });
+
             }
         });
 
+        EditText txtViewGroupName = view.findViewById(R.id.txtViewGroupNameHeader);
+        Button btnRenameGroup = view.findViewById(R.id.btnRenameGroup);
+        btnRenameGroup.setOnClickListener((View v) -> {
+            mFirebaseInstance.getReference("group")
+                    .child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("name") //group name
+                    .setValue(txtViewGroupName.getText().toString());
+
+            NavHostFragment.findNavController(GroupDetailFragment.this)
+                    .navigate(R.id.action_GroupDetailFragment_to_GroupListFragment);
+        });
     }
 
     @Override

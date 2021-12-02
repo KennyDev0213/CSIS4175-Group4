@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_GroupListFragment_to_GroupDetailFragment"
             app:destination="@id/GroupDetailFragment" />
+        <action
+            android:id="@+id/action_GroupListFragment_to_newGroupFragment"
+            app:destination="@id/newGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/GroupDetailFragment"
@@ -24,5 +27,26 @@
         <action
             android:id="@+id/action_GroupDetailFragment_to_GroupListFragment"
             app:destination="@id/GroupListFragment" />
+        <action
+            android:id="@+id/action_GroupDetailFragment_to_newMemberFragment"
+            app:destination="@id/newMemberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newGroupFragment"
+        android:name="com.example.csis4175_group4.fragments.groupmanager.NewGroupFragment"
+        android:label="fragment_new_group"
+        tools:layout="@layout/fragment_new_group" >
+        <action
+            android:id="@+id/action_newGroupFragment_to_GroupListFragment"
+            app:destination="@id/GroupListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newMemberFragment"
+        android:name="com.example.csis4175_group4.fragments.groupmanager.NewMemberFragment"
+        android:label="fragment_new_member"
+        tools:layout="@layout/fragment_new_member" >
+        <action
+            android:id="@+id/action_newMemberFragment_to_GroupDetailFragment"
+            app:destination="@id/GroupDetailFragment" />
     </fragment>
 </navigation>
