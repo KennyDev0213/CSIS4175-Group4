@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "596795658195",
+    "project_id": "projectlogindb",
+    "storage_bucket": "projectlogindb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596795658195:android:882ae018bea61d14b4a926",
+        "android_client_info": {
+          "package_name": "com.example.csis4175_group4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596795658195-svi769ja18rqa0ikbrt9s5s3no1fkqel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa8hE3u2VjfaO6r6WBZqHoouERTKpWV8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596795658195-svi769ja18rqa0ikbrt9s5s3no1fkqel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -77,43 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    //switch states from login to sign up to prevent making a whole new activity just for a sign in
-//    private void switchState(){
-//        if(this.STATE.equals("LOGIN")){
-//            changeToSignUp();
-//        } else if(this.STATE.equals("SIGNUP")) {
-//            changeToLogin();
-//        } else {
-//
-//        }
-//    }
-//
-//    private void changeToLogin(){
-//        this.STATE = "LOGIN";
-//        this.title.setText(R.string.title_activity_login);
-//        this.signupBtn.setText(R.string.goto_signup_btn);
-//        this.loginBtn.setText(R.string.login_btn);
-//
-//        findViewById(R.id.username_label).setVisibility(View.INVISIBLE);
-//        this.usernameInput.setVisibility(View.INVISIBLE);
-//        findViewById(R.id.confirm_password_label).setVisibility(View.INVISIBLE);
-//        this.confirmPasswordInput.setVisibility(View.INVISIBLE);
-//        findViewById(R.id.pass_reset_btn).setVisibility(View.VISIBLE);
-//    }
-//
-//    private void changeToSignUp(){
-//        this.STATE = "SIGNUP";
-//        this.title.setText(R.string.title_activity_signup);
-//        this.signupBtn.setText(R.string.goto_login_btn);
-//        this.loginBtn.setText(R.string.signup_btn);
-//
-//        findViewById(R.id.username_label).setVisibility(View.VISIBLE);
-//        this.usernameInput.setVisibility(View.VISIBLE);
-//        findViewById(R.id.confirm_password_label).setVisibility(View.VISIBLE);
-//        this.confirmPasswordInput.setVisibility(View.VISIBLE);
-//        findViewById(R.id.pass_reset_btn).setVisibility(View.INVISIBLE);
-//    }
     public void submitForm(){
         String email = emailInput.getEditText().getText().toString().trim();
         String password = passwordInput.getEditText().getText().toString().trim();
