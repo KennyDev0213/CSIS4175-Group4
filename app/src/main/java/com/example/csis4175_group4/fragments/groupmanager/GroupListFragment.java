@@ -89,12 +89,12 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
 
         List<String> userGroupList = new ArrayList<>();
-        mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups")
+        mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups") //current user's group lists
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot child: snapshot.getChildren()) {
-                    userGroupList.add(child.getKey());
+                    userGroupList.add(child.getKey()); //group id
                 }
             }
 
@@ -110,7 +110,9 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Group group = child.getValue(Group.class);
 
-                    if(userGroupList.contains(group.getId()))
+                    //check if a group of Groups is in group of current user
+                    //means current user can access to own group or admin group
+                    if(userGroupList.contains(group.getId())) // check owner of group
                         groupList.add(group);
                 }
                 groupListAdapter.setGroupList(groupList);
@@ -124,16 +126,9 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
         FloatingActionButton fabAddGroup = view.findViewById(R.id.fabAddGroup);
         fabAddGroup.setOnClickListener((View v) -> {
-
-            //Todo
-//            // Check the privilege: group owner who created it or admin
-//            if() {
-//                Bundle bundle= new Bundle();
-////            bundle.putInt("NUMBER_OF_GROUP", groupList.size());
-//                Navigation.findNavController(v).navigate(R.id.action_GroupListFragment_to_newGroupFragment, bundle);
-//            } else {
-//                Toast.makeText(this.getContext(), "")
-//            }
+                Bundle bundle= new Bundle();
+//                bundle.putInt("NUMBER_OF_GROUP", groupList.size());
+                Navigation.findNavController(v).navigate(R.id.action_GroupListFragment_to_newGroupFragment, bundle);
         });
     }
 
