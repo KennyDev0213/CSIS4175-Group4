@@ -22,6 +22,7 @@ public class GroupListAdapter extends RecyclerView.Adapter{
 
     interface ItemClickListener {
         void onListItemClick(Group group, int position);
+        void onListItemDelete(Group group, int position);
     }
 
     public ItemClickListener getListener() {
@@ -59,6 +60,11 @@ public class GroupListAdapter extends RecyclerView.Adapter{
         groupViewHolder.imgBtnGroupDetail.setOnClickListener(view ->{
             mListener.onListItemClick(curGroup, position);
             Navigation.findNavController(view).navigate(R.id.action_GroupListFragment_to_GroupDetailFragment);
+        });
+
+        groupViewHolder.imgBtnGroupDelete.setOnClickListener(view ->{
+            mListener.onListItemDelete(curGroup, position);
+            Navigation.findNavController(view).navigate(R.id.GroupListFragment);
         });
     }
 

@@ -1,23 +1,50 @@
 package com.example.csis4175_group4.fragments.groupmanager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Member {
-    private String userid;
+    private String id; //member key
+    private String uid; //user id
+    private String email;
     private String role;
 
     public Member() {
+        id = "";
+        uid = "";
+        email = "";
+        role = "";
     }
 
-    public Member(String userId, String role) {
-        this.userid = userId;
+    public Member(String id, String uid, String email, String role) {
+        this.id = id;
+        this.uid = uid;
+        this.email = email;
         this.role = role;
     }
 
-    public String getUserId() {
-        return userid;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userid = userId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String userId) {
+        this.email = userId;
     }
 
     public String getRole() {
@@ -26,5 +53,15 @@ public class Member {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("uid", uid);
+        result.put("email", email);
+        result.put("role", role);
+
+        return result;
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 public class GroupViewModel extends ViewModel {
 
     private MutableLiveData<Group> selectedGroup = new MutableLiveData<>();
-    private MutableLiveData<Integer> selectedGroupId = new MutableLiveData<>();
+    private MutableLiveData<String> selectedGroupId = new MutableLiveData<>();
 
     public LiveData<Group> getSelectedGroup() {
         return selectedGroup;
@@ -17,11 +17,11 @@ public class GroupViewModel extends ViewModel {
         selectedGroup.setValue(group);
     }
 
-    public LiveData<Integer> getSelectedGroupId() {
+    public LiveData<String> getSelectedGroupId() {
         return selectedGroupId;
     }
 
-    public void setSelectedGroupId(int groupId) {
+    public void setSelectedGroupId(String groupId) {
         selectedGroupId.setValue(groupId);
     }
 }

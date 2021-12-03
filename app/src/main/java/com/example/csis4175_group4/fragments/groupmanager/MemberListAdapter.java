@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.R;
@@ -18,7 +19,7 @@ public class MemberListAdapter extends RecyclerView.Adapter{
     private ItemClickListener mListener;
 
     interface ItemClickListener {
-        void onListItemClick(Member member, int position);
+        void onListItemDelete(Member member, int position);
     }
 
     public ItemClickListener getListener() {
@@ -52,10 +53,11 @@ public class MemberListAdapter extends RecyclerView.Adapter{
 
         MemberViewHolder groupViewHolder = (MemberViewHolder) holder;
         Member curMember = memberList.get(position);
-        groupViewHolder.txtViewMemberName.setText(curMember.getUserId());
+        groupViewHolder.txtViewMemberName.setText(curMember.getEmail());
         groupViewHolder.txtViewMemberRole.setText(curMember.getRole());
         groupViewHolder.imgBtnMemberDelete.setOnClickListener(view ->{
-            mListener.onListItemClick(curMember, position);
+            mListener.onListItemDelete(curMember, position);
+            Navigation.findNavController(view).navigate(R.id.GroupDetailFragment);
         });
     }
 

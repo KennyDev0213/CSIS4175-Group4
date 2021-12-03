@@ -112,7 +112,9 @@ public class SignupActivity extends AppCompatActivity {
                                     if(fUser == null) {
                                     } else {
                                         HashMap hashMap = new HashMap();
+                                        hashMap.put("uid",fUser.getUid()); // add uid
                                         hashMap.put("username",username);
+                                        hashMap.put("email",email); // add email
                                         fDatabaseRef.child(fUser.getUid()).updateChildren(hashMap);
 
                                         auth.getCurrentUser().sendEmailVerification();
