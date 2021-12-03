@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.csis4175_group4.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +30,10 @@ import java.util.Map;
 
 public class NewGroupFragment extends Fragment {
 
-    private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase_Group;
+    private DatabaseReference mFirebaseDatabase_Users;
+    private FirebaseUser mFirebaseUser;
 
     public NewGroupFragment() {
         // Required empty public constructor
@@ -57,29 +61,36 @@ public class NewGroupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//        //get number of group()
+//        int numberOfGroup = 0;
+//        if(getArguments() != null) {
+//            numberOfGroup = getArguments().getInt("NUMBER_OF_GROUP");
+//            Log.d("NEWGROUPFRAG", "The number of group is " + numberOfGroup);
+//        }
 
-        //get number of group()
-        int numberOfGroup = 0;
-        if(getArguments() != null) {
-            numberOfGroup = getArguments().getInt("NUMBER_OF_GROUP");
-            Log.d("NEWGROUPFRAG", "The number of group is " + numberOfGroup);
-        }
-
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference("group");
+        mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
+        mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
 
         EditText txtViewNewGroupName = view.findViewById(R.id.txtViewNewGroupName);
         Button btnAddNewGroup = view.findViewById(R.id.btnAddNewGroup);
-        int nextGroupId = numberOfGroup;
+//        int nextGroupId = numberOfGroup;
         btnAddNewGroup.setOnClickListener((View v) -> {
-            String key = mFirebaseDatabase.push().getKey();
+            String key = mFirebaseDatabase_Group.push().getKey();
             //String key = String.valueOf(nextGroupId);
+
+            // add group into groups of Firebase
             Group group = new Group(key, txtViewNewGroupName.getText().toString(), new HashMap<String, Member>());
             Map<String, Object> groupValues = group.toMap();
             Map<String, Object> childUpdates = new HashMap<>();
-
             childUpdates.put(key, groupValues);
-            mFirebaseDatabase.updateChildren(childUpdates);
+            mFirebaseDatabase_Group.updateChildren(childUpdates);
+
+            // add group id into user of Users of Firebase
+            Map<String, Object> userGroup = new HashMap<>();
+            userGroup.put(key, key);
+            mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").updateChildren(userGroup);
 
             NavHostFragment.findNavController(NewGroupFragment.this)
                     .navigate(R.id.action_newGroupFragment_to_GroupListFragment);

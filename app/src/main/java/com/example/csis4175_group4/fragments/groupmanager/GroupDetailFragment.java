@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.csis4175_group4.GroupManagerActivity;
 import com.example.csis4175_group4.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GroupDetailFragment extends Fragment implements MemberListAdapter.ItemClickListener{
 
@@ -39,7 +42,10 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     private GroupViewModel groupSharedViewModel;
 
     private FirebaseDatabase mFirebaseInstance;
-    private DatabaseReference mFirebaseDatabase;
+    private DatabaseReference mFirebaseDatabase_Group;
+    private DatabaseReference mFirebaseDatabase_Group_Members;
+    private DatabaseReference mFirebaseDatabase_Users;
+    private FirebaseUser mFirebaseUser;
 
     private static final String TAG = GroupManagerActivity.class.getSimpleName();
 
@@ -83,7 +89,9 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
         groupSharedViewModel = new ViewModelProvider(requireActivity()).get(GroupViewModel.class);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference("group").child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("members");
+        mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
+        mFirebaseDatabase_Group_Members = mFirebaseInstance.getReference("Groups").child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("members");
+        mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
 
         groupSharedViewModel.getSelectedGroup().observe(getViewLifecycleOwner(), new Observer<Group>() {
             @Override
@@ -92,7 +100,7 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
                 Log.d("GroupDetailFragment", "Group Name: " + groupSharedViewModel.getSelectedGroup().getValue().getName());
 
                 txtViewGroupNameHeader.setText(groupSharedViewModel.getSelectedGroup().getValue().getName());
-                mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+                mFirebaseDatabase_Group_Members.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot child : snapshot.getChildren()) {
@@ -114,7 +122,7 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
         EditText txtViewGroupName = view.findViewById(R.id.txtViewGroupNameHeader);
         Button btnRenameGroup = view.findViewById(R.id.btnRenameGroup);
         btnRenameGroup.setOnClickListener((View v) -> {
-            mFirebaseInstance.getReference("group")
+            mFirebaseDatabase_Group
                     .child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("name") //group name
                     .setValue(txtViewGroupName.getText().toString());
 
@@ -125,18 +133,31 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
         FloatingActionButton fabAddMember = view.findViewById(R.id.fabAddMember);
         fabAddMember.setOnClickListener((View v) -> {
             Bundle bundle= new Bundle();
-            bundle.putInt("NUMBER_OF_MEMBER", memberList.size());
+//            bundle.putInt("NUMBER_OF_MEMBER", memberList.size());
             Navigation.findNavController(v).navigate(R.id.action_GroupDetailFragment_to_newMemberFragment, bundle);
+        });
+
+        Button btnClose = view.findViewById(R.id.btnMemberClose);
+        btnClose.setOnClickListener((View v) -> {
+            Navigation.findNavController(v).navigate(R.id.action_GroupDetailFragment_to_GroupListFragment);
         });
     }
 
     @Override
     public void onListItemDelete(Member member, int position) {
         Log.d("GroupListFragment", "Delete Position: " + memberList.get(position).getId());
-        Log.d("GroupListFragment", "Delete Member name: " + member.getUserId());
+        Log.d("GroupListFragment", "Delete Member name: " + member.getId());
 
         memberList.remove(position);
         memberListAdapter.setMemberList(memberList);
-        mFirebaseDatabase.child(member.getId()).removeValue();
+
+        mFirebaseDatabase_Group_Members.child(member.getId()).removeValue();
+        mFirebaseDatabase_Users.child(member.getUid()).child("groups").child(groupSharedViewModel.getSelectedGroupId().getValue()).removeValue();
+
+        Group group = groupSharedViewModel.getSelectedGroup().getValue();
+        HashMap<String, Member> memberList = group.getMembers();
+        memberList.remove(member.getId());
+        group.setMembers(memberList);
+        groupSharedViewModel.setSelectedGroup(group);
     }
 }

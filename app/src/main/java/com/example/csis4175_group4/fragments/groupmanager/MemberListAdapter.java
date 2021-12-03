@@ -53,7 +53,7 @@ public class MemberListAdapter extends RecyclerView.Adapter{
 
         MemberViewHolder groupViewHolder = (MemberViewHolder) holder;
         Member curMember = memberList.get(position);
-        groupViewHolder.txtViewMemberName.setText(curMember.getUserId());
+        groupViewHolder.txtViewMemberName.setText(curMember.getEmail());
         groupViewHolder.txtViewMemberRole.setText(curMember.getRole());
         groupViewHolder.imgBtnMemberDelete.setOnClickListener(view ->{
             mListener.onListItemDelete(curMember, position);
