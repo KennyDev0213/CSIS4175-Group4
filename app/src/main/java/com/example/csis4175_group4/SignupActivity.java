@@ -84,40 +84,28 @@ public class SignupActivity extends AppCompatActivity {
         String password = inputPassword.getEditText().getText().toString().trim();
         String username = inputUserName.getEditText().getText().toString();
 
-        Boolean checkErr = true;
-        while(checkErr){
-            checkUsername();
-            checkEmail();
-            checkPassword();
-            confirmPassword();
-            if(     checkUsername()&&
-                    checkEmail()&&
-                    checkPassword()&&
-                    confirmPassword()
-            ){
-                checkErr = false;
-            }else{
-                return;
-            }
+        //cleaned up some code here
+        if(!checkUsername() || !checkEmail() || !checkPassword() || !confirmPassword()){
+            return;
         }
-
 
         auth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(SignupActivity.this,
                         new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(Task<AuthResult> task) {
 
                                 if(task.isSuccessful()){
                                     if(fUser == null) {
+
                                     } else {
-                                        HashMap hashMap = new HashMap();
+                                        HashMap<String, Object> hashMap = new HashMap<String, Object>();
                                         hashMap.put("uid",fUser.getUid()); // add uid
                                         hashMap.put("username",username);
                                         hashMap.put("email",email); // add email
                                         fDatabaseRef.child(fUser.getUid()).updateChildren(hashMap);
 
-                                        auth.getCurrentUser().sendEmailVerification();
+                                        fUser.sendEmailVerification();
                                         Toast.makeText(getApplicationContext(),
                                                 "Verification email sent",
                                                 Toast.LENGTH_SHORT).show();

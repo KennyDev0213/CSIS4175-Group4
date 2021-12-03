@@ -51,10 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         this.title = findViewById(R.id.login_title);
         this.auth = FirebaseAuth.getInstance();
 
-//        this.usernameInput = findViewById(R.id.username_input);
         this.emailInput = findViewById(R.id.inputEmail);
         this.passwordInput = findViewById(R.id.inputPassword);
-//        this.confirmPasswordInput = findViewById(R.id.conf_password_input);
 
         this.loginBtn = findViewById(R.id.logIn_btn);
         this.signupBtn = findViewById(R.id.signUp_btn);
@@ -67,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //add signup functionality
         this.signupBtn.setOnClickListener( view -> {
-//            switchState();
+            //launch the LoginActivity
             startActivity(new Intent(LoginActivity.this,SignupActivity.class));
         });
 
