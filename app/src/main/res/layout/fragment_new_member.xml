@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:text="aaa@abc.com" />
+                android:inputType="textNoSuggestions" />
 
             <ImageButton
                 android:id="@+id/imgBtnSearchMember"

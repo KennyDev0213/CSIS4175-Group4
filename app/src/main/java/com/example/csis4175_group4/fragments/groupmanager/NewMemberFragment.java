@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.csis4175_group4.R;
@@ -27,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +45,8 @@ public class NewMemberFragment extends Fragment {
     private DatabaseReference mFirebaseDatabase_Group_Members;
     private DatabaseReference mFirebaseDatabase_Users;
     private FirebaseUser mFirebaseUser;
+
+//    private String inputEmail;
 
     public NewMemberFragment() {
         // Required empty public constructor
@@ -106,23 +111,39 @@ public class NewMemberFragment extends Fragment {
 
         EditText txtViewNewMemberEmail = view.findViewById(R.id.txtViewNewMemberEmail);
         ImageButton imgBtnSearchMember = view.findViewById(R.id.imgBtnSearchMember);
+        TextView txtViewSearchResult = view.findViewById(R.id.txtViewSearchResult);
         RadioGroup rdoRoleGroup = view.findViewById(R.id.rdoRoleGroup);
         Button btnAddMember = view.findViewById(R.id.btnAddMember);
 
+//        inputEmail = txtViewNewMemberEmail.getText().toString().trim();
+
         // Search user by email from the users info registered in the Firebase
         imgBtnSearchMember.setOnClickListener((View v) -> {
+            boolean isSignUpUser = false;
+            User user = null;
+            Log.d("NEWMEMBERFRAG", "input email: " + txtViewNewMemberEmail.getText().toString().trim());
+            for(int i=0; i < userList.size(); i++) {
+                Log.d("NEWMEMBERFRAG", "userList.email: " + userList.get(i).getEmail());
+                if (txtViewNewMemberEmail.getText().toString().trim().equals(userList.get(i).getEmail())) {
+                    isSignUpUser = true;
+                    user = userList.get(i);
+                    break;
+                }
+            }
 
+            if(isSignUpUser == true) {
+                txtViewSearchResult.setText("Search result: " + user.getUsername() + ". You can add this user to the group.");
+            }else {
+                txtViewSearchResult.setText("Search result: " + txtViewNewMemberEmail.getText().toString().trim() + " was not sign up this app. You can't add this user to the group.");
+            }
         });
 
         // Add member
 //        int nextMemberId = numberOfMember;
         btnAddMember.setOnClickListener((View v) -> {
-
-            String inputEmail = txtViewNewMemberEmail.getText().toString().trim();
-
             HashMap<String, Member> members = groupSharedViewModel.getSelectedGroup().getValue().getMembers();
             for(Member m : members.values()) {
-                if(inputEmail.equals(m.getEmail())) {
+                if(txtViewNewMemberEmail.getText().toString().trim().equals(m.getEmail())) {
                     Toast.makeText(this.getContext(), "The email is duplicated. please enter other email.",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -145,7 +166,7 @@ public class NewMemberFragment extends Fragment {
             Log.d("NEWMEMBERFRAG", "userList.size " + userList.size());
 
             for(int i = 0; i < userList.size(); i++) {
-                if (inputEmail.equals(userList.get(i).getEmail())) {
+                if (txtViewNewMemberEmail.getText().toString().trim().equals(userList.get(i).getEmail())) {
                     String userId = userList.get(i).getUid();
 
                     // add group info into Users of Firebase
@@ -157,7 +178,7 @@ public class NewMemberFragment extends Fragment {
 
                     // add member into group of Firebase
                     String key = mFirebaseDatabase_Group_Members.push().getKey();
-                    Member member = new Member(key, userId, inputEmail, inputRole);
+                    Member member = new Member(key, userId, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
                     Map<String, Object> memberValues = member.toMap();
                     Map<String, Object> childUpdates = new HashMap<>();
 
