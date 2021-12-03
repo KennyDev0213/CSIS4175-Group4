@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -123,9 +124,16 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
         FloatingActionButton fabAddGroup = view.findViewById(R.id.fabAddGroup);
         fabAddGroup.setOnClickListener((View v) -> {
-            Bundle bundle= new Bundle();
-//            bundle.putInt("NUMBER_OF_GROUP", groupList.size());
-            Navigation.findNavController(v).navigate(R.id.action_GroupListFragment_to_newGroupFragment, bundle);
+
+            //Todo
+//            // Check the privilege: group owner who created it or admin
+//            if() {
+//                Bundle bundle= new Bundle();
+////            bundle.putInt("NUMBER_OF_GROUP", groupList.size());
+//                Navigation.findNavController(v).navigate(R.id.action_GroupListFragment_to_newGroupFragment, bundle);
+//            } else {
+//                Toast.makeText(this.getContext(), "")
+//            }
         });
     }
 
