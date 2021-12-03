@@ -89,9 +89,9 @@ public class NewMemberFragment extends Fragment {
                 return;
             }
 
-            //String key = mFirebaseDatabase.push().getKey();
-            String key = String.valueOf(nextMemberId);
-            Member member = new Member(txtViewNewMemberEmail.getText().toString(), role);
+            String key = mFirebaseDatabase.push().getKey();
+            //String key = String.valueOf(nextMemberId);
+            Member member = new Member(key, txtViewNewMemberEmail.getText().toString(), role);
             Map<String, Object> memberValues = member.toMap();
             Map<String, Object> childUpdates = new HashMap<>();
 

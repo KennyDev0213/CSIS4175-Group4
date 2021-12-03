@@ -5,17 +5,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Group {
+    private String id;
     private String name;
-    private ArrayList<Member> members;
+    private HashMap<String, Member> members;
 
     public Group() {
+        id = "";
         name = "";
-        members = new ArrayList<>();
+        members = new HashMap<>();
     }
 
-    public Group(String name, ArrayList<Member> members) {
+    public Group(String id, String name, HashMap<String, Member> members) {
+        this.id = id;
         this.name = name;
         this.members = members;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -26,16 +37,17 @@ public class Group {
         this.name = name;
     }
 
-    public ArrayList<Member> getMembers() {
+    public HashMap<String, Member> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<Member> members) {
+    public void setMembers(HashMap<String, Member> members) {
         this.members = members;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
         result.put("name", name);
         result.put("members", members);
 

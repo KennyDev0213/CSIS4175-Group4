@@ -72,9 +72,9 @@ public class NewGroupFragment extends Fragment {
         Button btnAddNewGroup = view.findViewById(R.id.btnAddNewGroup);
         int nextGroupId = numberOfGroup;
         btnAddNewGroup.setOnClickListener((View v) -> {
-            //String key = mFirebaseDatabase.push().getKey();
-            String key = String.valueOf(nextGroupId);
-            Group group = new Group(txtViewNewGroupName.getText().toString(), new ArrayList<Member>());
+            String key = mFirebaseDatabase.push().getKey();
+            //String key = String.valueOf(nextGroupId);
+            Group group = new Group(key, txtViewNewGroupName.getText().toString(), new HashMap<String, Member>());
             Map<String, Object> groupValues = group.toMap();
             Map<String, Object> childUpdates = new HashMap<>();
 

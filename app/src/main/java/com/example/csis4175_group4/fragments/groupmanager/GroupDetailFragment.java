@@ -132,11 +132,11 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
 
     @Override
     public void onListItemDelete(Member member, int position) {
-        Log.d("GroupListFragment", "Delete Position: " + position);
+        Log.d("GroupListFragment", "Delete Position: " + memberList.get(position).getId());
         Log.d("GroupListFragment", "Delete Member name: " + member.getUserId());
 
         memberList.remove(position);
         memberListAdapter.setMemberList(memberList);
-        mFirebaseDatabase.child(""+position).removeValue();
+        mFirebaseDatabase.child(member.getId()).removeValue();
     }
 }

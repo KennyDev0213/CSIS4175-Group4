@@ -107,19 +107,19 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         Log.d("GroupListFragment", "Click Position: " + position);
         Log.d("GroupListFragment", "Click Group name: " + group.getName());
         groupSharedViewModel.setSelectedGroup(group);
-        groupSharedViewModel.setSelectedGroupId(position);
+        groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
     }
 
     @Override
     public void onListItemDelete(Group group, int position) {
-        Log.d("GroupListFragment", "Delete Position: " + position);
+        Log.d("GroupListFragment", "Delete Position: " + groupList.get(position).getId());
         Log.d("GroupListFragment", "Delete Group name: " + group.getName());
 
         groupSharedViewModel.setSelectedGroup(group);
-        groupSharedViewModel.setSelectedGroupId(position);
+        groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
 
         groupList.remove(position);
         groupListAdapter.setGroupList(groupList);
-        mFirebaseDatabase.child(""+position).removeValue();
+        mFirebaseDatabase.child(group.getId()).removeValue();
     }
 }
