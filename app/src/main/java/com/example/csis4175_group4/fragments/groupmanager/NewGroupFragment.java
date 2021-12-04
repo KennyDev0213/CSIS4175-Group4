@@ -81,6 +81,8 @@ public class NewGroupFragment extends Fragment {
         btnAddNewGroup.setOnClickListener((View v) -> {
             String groupid = mFirebaseDatabase_Group.push().getKey();
 
+            String userid = mFirebaseUser.getUid();
+
             // add group into Groups of Firebase
             Group group = new Group(groupid, txtViewNewGroupName.getText().toString(), new HashMap<String, Member>());
             Map<String, Object> groupValues = group.toMap();
@@ -88,26 +90,25 @@ public class NewGroupFragment extends Fragment {
             childUpdates.put(groupid, groupValues);
             mFirebaseDatabase_Group.updateChildren(childUpdates);
 
-            // add current user into group as member(admin) of the group
-            String userid = mFirebaseUser.getUid();
-            mFirebaseDatabase_Users.child(userid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        String email = task.getResult().child("email").getValue().toString();
-                        Member member = new Member(userid, email, "admin");
-                        Map<String, Object> memberValues = member.toMap();
-                        Map<String, Object> childMemberUpdates = new HashMap<>();
 
-                        childMemberUpdates.put(userid, memberValues);
-                        mFirebaseDatabase_Group.child(groupid).child("members").updateChildren(childMemberUpdates);
-                    }
-                    else {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    }
-                }
-            });
-
+//            mFirebaseDatabase_Users.child(userid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                    if (task.isSuccessful()) {
+//                        // add current user into group as member(admin) of the group
+//                        String email = task.getResult().child("email").getValue().toString();
+//                        Member member = new Member(userid, email, "admin");
+//                        Map<String, Object> memberValues = member.toMap();
+//                        Map<String, Object> childMemberUpdates = new HashMap<>();
+//
+//                        childMemberUpdates.put(userid, memberValues);
+//                        mFirebaseDatabase_Group.child(groupid).child("members").updateChildren(childMemberUpdates);
+//                    }
+//                    else {
+//                        Log.e("firebase", "Error getting data", task.getException());
+//                    }
+//                }
+//            });
 
             // add group id into user of Users of Firebase
             Map<String, Object> userGroup = new HashMap<>();
