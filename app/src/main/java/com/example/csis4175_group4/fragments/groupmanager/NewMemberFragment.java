@@ -38,6 +38,7 @@ import java.util.Map;
 
 public class NewMemberFragment extends Fragment {
 
+    User searchedUser;
     List<User> userList;
     private GroupViewModel groupSharedViewModel;
 
@@ -67,7 +68,7 @@ public class NewMemberFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_new_member, container, false);
 
-
+        searchedUser = new User();
         userList = new ArrayList<>();
         groupSharedViewModel = new ViewModelProvider(requireActivity()).get(GroupViewModel.class);
 
@@ -120,19 +121,19 @@ public class NewMemberFragment extends Fragment {
         // Search user by email from the users info registered in the Firebase
         imgBtnSearchMember.setOnClickListener((View v) -> {
             boolean isSignUpUser = false;
-            User user = null;
+            //User user = null;
             Log.d("NEWMEMBERFRAG", "input email: " + txtViewNewMemberEmail.getText().toString().trim());
             for(int i=0; i < userList.size(); i++) {
                 Log.d("NEWMEMBERFRAG", "userList.email: " + userList.get(i).getEmail());
                 if (txtViewNewMemberEmail.getText().toString().trim().equals(userList.get(i).getEmail())) {
                     isSignUpUser = true;
-                    user = userList.get(i);
+                    searchedUser = userList.get(i);
                     break;
                 }
             }
 
             if(isSignUpUser == true) {
-                txtViewSearchResult.setText("Search result: " + user.getUsername() + ". You can add this user to the group.");
+                txtViewSearchResult.setText("Search result: " + searchedUser.getUsername() + ". You can add this user to the group.");
             }else {
                 txtViewSearchResult.setText("Search result: " + txtViewNewMemberEmail.getText().toString().trim() + " was not sign up this app. You can't add this user to the group.");
             }
@@ -164,29 +165,22 @@ public class NewMemberFragment extends Fragment {
 
             Log.d("NEWMEMBERFRAG", "userList.size " + userList.size());
 
-            for(int i = 0; i < userList.size(); i++) {
-                if (txtViewNewMemberEmail.getText().toString().trim().equals(userList.get(i).getEmail())) {
-                    String userId = userList.get(i).getUid();
-
-                    // add group info into Users of Firebase
-                    Map<String, Object> userGroup = new HashMap<>();
-                    userGroup.put(groupSharedViewModel.getSelectedGroup().getValue().getId(),
-                            groupSharedViewModel.getSelectedGroup().getValue().getId());
-                    mFirebaseDatabase_Users.child(userId).child("groups").updateChildren(userGroup);
+             //add group info into Users of Firebase
+//            Map<String, Object> userGroup = new HashMap<>();
+//            userGroup.put(groupSharedViewModel.getSelectedGroup().getValue().getId(),
+//                    groupSharedViewModel.getSelectedGroup().getValue().getId());
+//            mFirebaseDatabase_Users.child(searchedUser.getUid()).child("groups").updateChildren(userGroup);
 
 
-                    // add member into group of Firebase
-                    //String key = mFirebaseDatabase_Group_Members.push().getKey();
-                    String key = userId;
-                    Member member = new Member(key, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
-                    Map<String, Object> memberValues = member.toMap();
-                    Map<String, Object> childUpdates = new HashMap<>();
+            // add member into group of Firebase
+            //String key = mFirebaseDatabase_Group_Members.push().getKey();
+            String key = searchedUser.getUid();
+            Member member = new Member(key, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
+            Map<String, Object> memberValues = member.toMap();
+            Map<String, Object> childUpdates = new HashMap<>();
 
-                    childUpdates.put(key, memberValues);
-                    mFirebaseDatabase_Group_Members.updateChildren(childUpdates);
-                    break;
-                }
-            }
+            childUpdates.put(key, memberValues);
+            mFirebaseDatabase_Group_Members.updateChildren(childUpdates);
 
             NavHostFragment.findNavController(NewMemberFragment.this)
                     .navigate(R.id.action_newMemberFragment_to_GroupDetailFragment);

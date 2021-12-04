@@ -152,7 +152,7 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
         memberListAdapter.setMemberList(memberList);
 
         mFirebaseDatabase_Group_Members.child(member.getUid()).removeValue();
-        mFirebaseDatabase_Users.child(member.getUid()).child("groups").child(groupSharedViewModel.getSelectedGroupId().getValue()).removeValue();
+        //mFirebaseDatabase_Users.child(member.getUid()).child("groups").child(groupSharedViewModel.getSelectedGroupId().getValue()).removeValue();
 
         Group group = groupSharedViewModel.getSelectedGroup().getValue();
         HashMap<String, Member> memberList = group.getMembers();

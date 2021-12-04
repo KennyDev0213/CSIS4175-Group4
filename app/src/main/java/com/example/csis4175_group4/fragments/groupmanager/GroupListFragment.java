@@ -197,5 +197,18 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         Map<String, Object> userGroup = new HashMap<>();
         userGroup.put("id", group.getId());
         mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").child(group.getId()).removeValue();
+
+//        //remove added group of the user by adding member
+//        for(int i=0; i < userGroupList.size(); i++) {
+//
+//            Log.d("GroupListFragment", "==> Delete mFirebaseUser user group id: " + mFirebaseDatabase_Users.child(userGroupList.get(i))
+//                    .child("groups").child(group.getId()).getKey());
+//
+//            if( (mFirebaseDatabase_Users.child(userGroupList.get(i))
+//                    .child("groups").child(group.getId()).getKey()).equals(group.getId())) {
+//                mFirebaseDatabase_Users.child(userGroupList.get(i))
+//                        .child("groups").child(group.getId()).removeValue();
+//            }
+//        }
     }
 }
