@@ -139,7 +139,6 @@ public class NewMemberFragment extends Fragment {
         });
 
         // Add member
-//        int nextMemberId = numberOfMember;
         btnAddMember.setOnClickListener((View v) -> {
             HashMap<String, Member> members = groupSharedViewModel.getSelectedGroup().getValue().getMembers();
             for(Member m : members.values()) {
@@ -177,8 +176,9 @@ public class NewMemberFragment extends Fragment {
 
 
                     // add member into group of Firebase
-                    String key = mFirebaseDatabase_Group_Members.push().getKey();
-                    Member member = new Member(key, userId, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
+                    //String key = mFirebaseDatabase_Group_Members.push().getKey();
+                    String key = userId;
+                    Member member = new Member(key, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
                     Map<String, Object> memberValues = member.toMap();
                     Map<String, Object> childUpdates = new HashMap<>();
 
