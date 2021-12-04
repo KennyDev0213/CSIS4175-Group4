@@ -9,7 +9,7 @@
         android:id="@+id/albumListFragment"
         android:name="com.example.csis4175_group4.fragments.albummanager.AlbumListFragment"
         android:label="fragment_album_list"
-        tools:layout="@layout/fragment_album_list" >
+        tools:layout="@layout/fragment_album_list">
         <action
             android:id="@+id/action_albumListFragment_to_albumDetailFragment"
             app:destination="@id/albumDetailFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/albumDetailFragment"
         android:name="com.example.csis4175_group4.fragments.albummanager.AlbumDetailFragment"
         android:label="fragment_album_detail"
-        tools:layout="@layout/fragment_album_detail" >
+        tools:layout="@layout/fragment_album_detail">
         <action
             android:id="@+id/action_albumDetailFragment_to_albumListFragment"
             app:destination="@id/albumListFragment" />
@@ -33,7 +33,7 @@
         android:id="@+id/newAlbumFragment"
         android:name="com.example.csis4175_group4.fragments.albummanager.NewAlbumFragment"
         android:label="fragment_new_album"
-        tools:layout="@layout/fragment_new_album" >
+        tools:layout="@layout/fragment_new_album">
         <action
             android:id="@+id/action_newAlbumFragment_to_albumListFragment"
             app:destination="@id/albumListFragment" />
@@ -42,9 +42,10 @@
         android:id="@+id/albumGroupFragment"
         android:name="com.example.csis4175_group4.fragments.albummanager.AlbumGroupFragment"
         android:label="fragment_album_group"
-        tools:layout="@layout/fragment_album_group" >
+        tools:layout="@layout/fragment_album_group">
         <action
             android:id="@+id/action_albumGroupFragment_to_albumDetailFragment"
             app:destination="@id/albumDetailFragment" />
     </fragment>
+
 </navigation>
