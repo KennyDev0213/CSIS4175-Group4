@@ -12,11 +12,11 @@
         tools:layout="@layout/fragment_group_list">
 
         <action
-            android:id="@+id/action_GroupListFragment_to_GroupDetailFragment"
-            app:destination="@id/GroupDetailFragment" />
-        <action
             android:id="@+id/action_GroupListFragment_to_newGroupFragment"
             app:destination="@id/newGroupFragment" />
+        <action
+            android:id="@+id/action_GroupListFragment_to_GroupDetailFragment"
+            app:destination="@id/GroupDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/GroupDetailFragment"
@@ -49,4 +49,5 @@
             android:id="@+id/action_newMemberFragment_to_GroupDetailFragment"
             app:destination="@id/GroupDetailFragment" />
     </fragment>
+
 </navigation>
