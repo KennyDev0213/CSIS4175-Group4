@@ -34,6 +34,7 @@ import java.util.Map;
 
 public class GroupListFragment extends Fragment implements GroupListAdapter.ItemClickListener{
 
+    List<String> userGroupList;
     List<Group> groupList;
     RecyclerView recyclerView;
     GroupListAdapter groupListAdapter;
@@ -45,6 +46,61 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
     private FirebaseUser mFirebaseUser;
 
     private static final String TAG = GroupManagerActivity.class.getSimpleName();
+
+    public interface UserListCallback {
+        void onCallback(List<String> list);
+    }
+    public void readUserListData(UserListCallback callback) {
+        mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups") //current user's group lists
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot child: snapshot.getChildren()) {
+                            userGroupList.add(child.getKey()); //group id
+                            Log.d("GroupListFragment", "userGroupList: " + child.getKey());
+                        }
+
+                        callback.onCallback(userGroupList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    public interface GroupListCallback {
+        void onCallback(List<Group> list);
+    }
+    public void readGroupListData(GroupListCallback callback) {
+        mFirebaseDatabase_Group.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    Group group = child.getValue(Group.class);
+
+                    //check if a group of Groups is in group of current user
+                    //means current user can access to own group or admin group
+                    Log.d("GroupListFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
+                    Log.d("GroupListFragment", "group.getId2: " + group.getId());
+                    for(int i = 0; i < userGroupList.size(); i++) {
+                        if (userGroupList.get(i).equals(group.getId())) { // check owner of group
+                            Log.d("GroupListFragment", "userGroupList.get(i): " + userGroupList.get(i));
+                            groupList.add(group);
+                        }
+                    }
+                }
+                groupListAdapter.setGroupList(groupList);
+                callback.onCallback(groupList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public GroupListFragment() {
         // Required empty public constructor
@@ -65,7 +121,6 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_group_list, container, false);
-
         return rootView;
     }
 
@@ -83,44 +138,27 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter((groupListAdapter));
 
+        userGroupList = new ArrayList<>();
+
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
         mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
 
-        List<String> userGroupList = new ArrayList<>();
-        mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups") //current user's group lists
-                .addValueEventListener(new ValueEventListener() {
+
+        //After getting user data, get group data because of async issue
+        readUserListData(new UserListCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child: snapshot.getChildren()) {
-                    userGroupList.add(child.getKey()); //group id
-                }
-            }
+            public void onCallback(List<String> list) {
+                userGroupList = list;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        mFirebaseDatabase_Group.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child : snapshot.getChildren()) {
-                    Group group = child.getValue(Group.class);
-
-                    //check if a group of Groups is in group of current user
-                    //means current user can access to own group or admin group
-                    if(userGroupList.contains(group.getId())) // check owner of group
-                        groupList.add(group);
-                }
-                groupListAdapter.setGroupList(groupList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                readGroupListData(new GroupListCallback() {
+                    @Override
+                    public void onCallback(List<Group> list) {
+                        groupList = list;
+                        groupListAdapter.setGroupList(groupList);
+                    }
+                });
             }
         });
 
