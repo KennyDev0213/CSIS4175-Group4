@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.csis4175_group4.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -75,21 +77,41 @@ public class NewGroupFragment extends Fragment {
 
         EditText txtViewNewGroupName = view.findViewById(R.id.txtViewNewGroupName);
         Button btnAddNewGroup = view.findViewById(R.id.btnAddNewGroup);
-//        int nextGroupId = numberOfGroup;
-        btnAddNewGroup.setOnClickListener((View v) -> {
-            String key = mFirebaseDatabase_Group.push().getKey();
-            //String key = String.valueOf(nextGroupId);
 
-            // add group into groups of Firebase
-            Group group = new Group(key, txtViewNewGroupName.getText().toString(), new HashMap<String, Member>());
+        btnAddNewGroup.setOnClickListener((View v) -> {
+            String groupid = mFirebaseDatabase_Group.push().getKey();
+
+            // add group into Groups of Firebase
+            Group group = new Group(groupid, txtViewNewGroupName.getText().toString(), new HashMap<String, Member>());
             Map<String, Object> groupValues = group.toMap();
             Map<String, Object> childUpdates = new HashMap<>();
-            childUpdates.put(key, groupValues);
+            childUpdates.put(groupid, groupValues);
             mFirebaseDatabase_Group.updateChildren(childUpdates);
+
+            // add current user into group as member(admin) of the group
+            String userid = mFirebaseUser.getUid();
+            mFirebaseDatabase_Users.child(userid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        String email = task.getResult().child("email").getValue().toString();
+                        Member member = new Member(userid, email, "admin");
+                        Map<String, Object> memberValues = member.toMap();
+                        Map<String, Object> childMemberUpdates = new HashMap<>();
+
+                        childMemberUpdates.put(userid, memberValues);
+                        mFirebaseDatabase_Group.child(groupid).child("members").updateChildren(childMemberUpdates);
+                    }
+                    else {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    }
+                }
+            });
+
 
             // add group id into user of Users of Firebase
             Map<String, Object> userGroup = new HashMap<>();
-            userGroup.put(key, key);
+            userGroup.put(groupid, groupid);
             mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").updateChildren(userGroup);
 
             NavHostFragment.findNavController(NewGroupFragment.this)
