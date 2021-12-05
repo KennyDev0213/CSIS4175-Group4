@@ -34,10 +34,6 @@ public class SignupActivity extends AppCompatActivity {
     private DatabaseReference fDatabaseRef;
 
     private TextInputLayout inputEmail, inputPassword,inputConfirmPassword, inputUserName;
-//    private EditText signupInputEmail;
-//    private EditText signupInputPassword;
-//    private EditText PasswordConfirm;
-//    private EditText UserNametxt;
 
     private Button btnSignUp;
     private Button btnLinkToLogIn;
@@ -55,10 +51,6 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
         inputUserName = findViewById(R.id.inputUserName);
-//        signupInputEmail = (EditText) findViewById(R.id.email_input);
-//        signupInputPassword = (EditText) findViewById(R.id.password_input);
-//        PasswordConfirm = findViewById(R.id.conf_password_input);
-//        UserNametxt = findViewById(R.id.username_input);
 
         btnSignUp = (Button) findViewById(R.id.SignUp_btn);
         btnLinkToLogIn = (Button) findViewById(R.id.Login_btn);
@@ -111,7 +103,6 @@ public class SignupActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                     }
-
                                     finish();
                                 }
                             }

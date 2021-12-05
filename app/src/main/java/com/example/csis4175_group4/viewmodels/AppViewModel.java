@@ -22,4 +22,5 @@ public class AppViewModel extends AndroidViewModel {
     public void logOut(){
         this.loggedIn = false;
     }
+
 }
