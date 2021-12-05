@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.csis4175_group4.viewmodels.ForgetPassword;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -72,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         //add a way for user to recover forgotten information
         this.forgotBtn.setOnClickListener(view -> {
             //TODO implement password reset
+            Intent intent=new Intent(LoginActivity.this, ForgetPassword.class);
+            startActivity(intent);
         });
     }
 

@@ -6,6 +6,11 @@
     <!--Main Activity Strings-->
     <string name="splash_txt2">Group 4 Project</string>
     <string name="main_welcome">Welcome back!</string>
+    <string-array name="option_texts">
+        <item>Camera</item>
+        <item>Photos</item>
+        <item>Groups</item>
+    </string-array>
 
     <!--Login Activity Strings-->
     <string name="title_activity_login">Login</string>
