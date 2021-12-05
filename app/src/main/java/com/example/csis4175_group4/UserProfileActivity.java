@@ -60,7 +60,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/");
-//                startActivityForResult(intent,REQUEST_CODE);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
 

@@ -39,6 +39,9 @@
         <activity
             android:name=".GroupManagerActivity"
             android:exported="true" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="true">
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
