@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.csis4175_group4.viewmodels.ForgetPassword;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class SignupActivity extends AppCompatActivity {
+public class
+SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser fUser;
@@ -37,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private Button btnSignUp;
     private Button btnLinkToLogIn;
+    private Button btnForget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
         inputUserName = findViewById(R.id.inputUserName);
+        btnForget=findViewById(R.id.pass_reset_btn);
 
         btnSignUp = (Button) findViewById(R.id.SignUp_btn);
         btnLinkToLogIn = (Button) findViewById(R.id.Login_btn);
@@ -67,6 +71,14 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 submitForm();
+            }
+        });
+
+        btnForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(SignupActivity.this, ForgetPassword.class);
+                startActivity(intent);
             }
         });
     }
