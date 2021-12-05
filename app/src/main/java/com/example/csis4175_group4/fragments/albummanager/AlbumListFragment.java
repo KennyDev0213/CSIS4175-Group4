@@ -194,21 +194,21 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
             @Override
             public void onCallback(List<String> list) {
                 userGroupList = list;
-            }
-        });
 
-        readGroupListData(new AlbumListFragment.GroupListCallback() {
-            @Override
-            public void onCallback(List<Group> list) {
-                groupList = list;
-            }
-        });
+                readGroupListData(new AlbumListFragment.GroupListCallback() {
+                    @Override
+                    public void onCallback(List<Group> list) {
+                        groupList = list;
 
-        readAlbumListData(new AlbumListFragment.AlbumListCallback() {
-            @Override
-            public void onCallback(List<Album> list) {
-                albumList = list;
-                albumListAdapter.setAlbumList(albumList);
+                        readAlbumListData(new AlbumListFragment.AlbumListCallback() {
+                            @Override
+                            public void onCallback(List<Album> list) {
+                                albumList = list;
+                                albumListAdapter.setAlbumList(albumList);
+                            }
+                        });
+                    }
+                });
             }
         });
 
