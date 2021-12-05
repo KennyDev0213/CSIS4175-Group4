@@ -17,6 +17,7 @@ import com.example.csis4175_group4.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+//by Hardawinder Singh
 
 public class ForgetPassword extends AppCompatActivity {
 
@@ -51,12 +52,11 @@ public class ForgetPassword extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(),"Your password is successfuly reseted",Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(getApplication(),"Your password is successfuly reseted",Toast.LENGTH_LONG).show();
                                 Log.e("TAG","Successful");
                             }
                             else{
-                                Toast.makeText(getApplicationContext(),"Password reset has been failed",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplication(),"Password reset has been failed",Toast.LENGTH_LONG).show();
                                 Log.e("TAG","Failed");
                             }
                         }
