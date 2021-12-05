@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.csis4175_group4.utility.MenuAdaptor;
 import com.example.csis4175_group4.utility.Option;
 import com.example.csis4175_group4.viewmodels.AppViewModel;
 
@@ -26,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     Resources r = getResources();
     String[] Titles = r.getStringArray(R.array.option_texts);
-    private Option[] options = {
-        new Option(Titles[0],R.drawable.ic_baseline_camera_alt_24, options_actvities[0]), //Camera option
-        new Option(Titles[1],R.drawable.ic_baseline_image_24, options_actvities[1]), //Photos option
-        new Option(Titles[2],R.drawable.ic_baseline_family_group_24, options_actvities[2]), //Group option
+    private final Option[] options = {
+        new Option(Titles[0], R.drawable.ic_baseline_camera_alt_24, options_actvities[0]), //Camera option
+        new Option(Titles[1], R.drawable.ic_baseline_image_24, options_actvities[1]), //Photos option
+        new Option(Titles[2], R.drawable.ic_baseline_family_group_24, options_actvities[2]), //Group option
     };
 
     @Override
@@ -47,11 +48,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        //initialize the recycler view
         menu = findViewById(R.id.main_menu);
 
-        //initialize the recycler view
-
-
+        menu.setAdapter(new MenuAdaptor(this, options));
 
     }
 }
