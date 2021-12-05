@@ -100,7 +100,6 @@ public class NewAlbumFragment extends Fragment {
                         }
                     }
 
-                    //Todo
                     //check if current user is a member of group in Groups DB.
                     //If user is member, add the group into groupList for making group for album
                     HashMap<String, Member> members = group.getMembers();
