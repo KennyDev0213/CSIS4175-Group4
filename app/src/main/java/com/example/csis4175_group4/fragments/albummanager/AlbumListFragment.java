@@ -133,18 +133,6 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Album album = child.getValue(Album.class);
 
-//                    //check if a album of Albums is in album of current user
-//                    //means current user can access to own album or admin of the group
-//                    Log.d("AlbumListFragment", "userAlbumList2: " + userGroupList.contains(album.getGroupId()));
-//                    Log.d("AlbumListFragment", "album.getId2: " + album.getId());
-//                    for(int i = 0; i < userGroupList.size(); i++) {
-//                        if (userGroupList.get(i).equals(album.getGroupId())) { // check owner of album
-//                            Log.d("AlbumListFragment", "userAlbumList.get(i): " + userGroupList.get(i));
-//                            albumList.add(album);
-//                        }
-//                    }
-
-
                     //check if a album of Albums is in album of current user
                     //means current user can access to own album or admin of the group
                     for(int i = 0; i < groupList.size(); i++) {
