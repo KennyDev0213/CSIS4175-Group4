@@ -59,6 +59,8 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        userGroupList.clear();
+
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
                             Log.d("AlbumListFragment", "userGroupList: " + child.getKey());
@@ -81,6 +83,8 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
         mFirebaseDatabase_Groups.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupList.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Group group = child.getValue(Group.class);
 
@@ -112,6 +116,8 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
         mFirebaseDatabase_Albums.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                albumList.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Album album = child.getValue(Album.class);
 //                    albumList.add(album);

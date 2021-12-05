@@ -55,7 +55,7 @@
                 android:layout_weight="0.8"
                 android:inputType="textNoSuggestions"
                 android:minHeight="32dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </LinearLayout>
 
