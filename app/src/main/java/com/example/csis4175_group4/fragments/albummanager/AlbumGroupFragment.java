@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.csis4175_group4.AlbumManagerActivity;
 import com.example.csis4175_group4.R;
@@ -48,6 +49,7 @@ public class AlbumGroupFragment extends Fragment {
 
     List<String> userGroupList;
     List<Group> groupList;
+    String currentAlbumGroupId;
 
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase_Album;
@@ -65,6 +67,8 @@ public class AlbumGroupFragment extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        userGroupList.clear();
+
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
                             Log.d("AlbumGroupFragment", "userGroupList: " + child.getKey());
@@ -88,16 +92,29 @@ public class AlbumGroupFragment extends Fragment {
         mFirebaseDatabase_Groups.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupList.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Group group = child.getValue(Group.class);
 
                     //check if a group of Groups is in group of current user
-                    //means current user can access to own group or admin group
+                    //means current user can access to own group or admin of the group
                     Log.d("AlbumGroupFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
                     Log.d("AlbumGroupFragment", "group.getId2: " + group.getId());
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
                             Log.d("AlbumGroupFragment", "userGroupList.get(i): " + userGroupList.get(i));
+                            groupList.add(group);
+                        }
+                    }
+
+                    //Todo
+                    //check if current user is a member of group in Groups DB.
+                    //If user is member, add the group into groupList for making group for album
+                    HashMap<String, Member> members = group.getMembers();
+                    for(Member m : members.values()) {
+                        if(m.getUid().equals(mFirebaseUser.getUid()) &&
+                            !groupList.contains(group.getId())) {
                             groupList.add(group);
                         }
                     }
@@ -142,6 +159,7 @@ public class AlbumGroupFragment extends Fragment {
 
         userGroupList = new ArrayList<>();
         groupList = new ArrayList<>();
+        currentAlbumGroupId = "";
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -162,10 +180,7 @@ public class AlbumGroupFragment extends Fragment {
 
                         List<String> spinnerData = new ArrayList<>();;
                         for(int i=0; i < groupList.size(); i++) {
-                            for(int j=0; j < userGroupList.size(); j++) {
-                                if (userGroupList.get(j).equals(groupList.get(i).getId()))
-                                    spinnerData.add(groupList.get(i).getName());
-                            }
+                            spinnerData.add(groupList.get(i).getName());
                         }
 
                         Spinner spnMyGroup = view.findViewById(R.id.spnMyGroup);
@@ -181,21 +196,21 @@ public class AlbumGroupFragment extends Fragment {
                                 } else {
                                     Log.d(TAG, "task.getResult().getValue().toString(): " + String.valueOf(task.getResult().getValue()));
 
-                                    String albumGroup = String.valueOf(task.getResult().getValue());
-                                    String albumGroupName = "";
+                                    currentAlbumGroupId = String.valueOf(task.getResult().getValue());
+                                    String currentAlbumGroupName = "";
                                     for(int i=0; i < groupList.size(); i++) {
-                                        if (albumGroup.equals(groupList.get(i).getId())) {
-                                            albumGroupName = groupList.get(i).getName();
+                                        if (currentAlbumGroupId.equals(groupList.get(i).getId())) {
+                                            currentAlbumGroupName = groupList.get(i).getName();
                                             break;
                                         }
                                     }
 
-                                    final int selectionIndex = spinnerData.indexOf(albumGroupName);
+                                    final int selectionIndex = spinnerData.indexOf(currentAlbumGroupName);
                                     TextView txtViewCurrentGroup = view.findViewById(R.id.txtViewCurrentGroup);
                                     if(selectionIndex == -1) {
                                         txtViewCurrentGroup.setText("There is no any group. Please select a group below.");
                                     } else {
-                                        txtViewCurrentGroup.setText(albumGroupName);
+                                        txtViewCurrentGroup.setText(currentAlbumGroupName);
                                     }
 
                                     Log.d("AlbumGroupFragment", "selectionIndex: " + selectionIndex);
@@ -217,6 +232,16 @@ public class AlbumGroupFragment extends Fragment {
 
         Button btnApplyAlbumGroup = view.findViewById(R.id.btnApplyAlbumGroup);
         btnApplyAlbumGroup.setOnClickListener((View v) -> {
+
+            // check validation for group owner, not admin
+            // group owner can only change group of the album to other group
+            if (userGroupList.contains(currentAlbumGroupId) == false) {
+
+                Toast.makeText(this.getContext(),
+                        "You're not group owner that was made this group.\nGroup owner can only change the group.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
             // add group id into an album of Albums of Firebase
             Spinner spnMyGroup = view.findViewById(R.id.spnMyGroup);

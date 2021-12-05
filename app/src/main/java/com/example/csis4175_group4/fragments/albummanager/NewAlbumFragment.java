@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.csis4175_group4.AlbumManagerActivity;
 import com.example.csis4175_group4.R;
 import com.example.csis4175_group4.fragments.groupmanager.Group;
+import com.example.csis4175_group4.fragments.groupmanager.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,6 +59,8 @@ public class NewAlbumFragment extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        userGroupList.clear();
+
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
                             Log.d("AlbumGroupFragment", "userGroupList: " + child.getKey());
@@ -81,6 +84,8 @@ public class NewAlbumFragment extends Fragment {
         mFirebaseDatabase_Groups.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupList.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Group group = child.getValue(Group.class);
 
@@ -91,6 +96,17 @@ public class NewAlbumFragment extends Fragment {
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
                             Log.d("AlbumGroupFragment", "userGroupList.get(i): " + userGroupList.get(i));
+                            groupList.add(group);
+                        }
+                    }
+
+                    //Todo
+                    //check if current user is a member of group in Groups DB.
+                    //If user is member, add the group into groupList for making group for album
+                    HashMap<String, Member> members = group.getMembers();
+                    for(Member m : members.values()) {
+                        if(m.getUid().equals(mFirebaseUser.getUid()) &&
+                                !groupList.contains(group.getId())) {
                             groupList.add(group);
                         }
                     }
@@ -157,10 +173,7 @@ public class NewAlbumFragment extends Fragment {
 
                         List<String> spinnerData = new ArrayList<>();;
                         for(int i=0; i < groupList.size(); i++) {
-                            for(int j=0; j < userGroupList.size(); j++) {
-                                if (userGroupList.get(j).equals(groupList.get(i).getId()))
-                                    spinnerData.add(groupList.get(i).getName());
-                            }
+                            spinnerData.add(groupList.get(i).getName());
                         }
 
                         Spinner spnMyGroup = view.findViewById(R.id.spnMyGroup);

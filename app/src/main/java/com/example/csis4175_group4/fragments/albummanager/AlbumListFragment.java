@@ -14,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.csis4175_group4.AlbumManagerActivity;
 import com.example.csis4175_group4.R;
 
 import com.example.csis4175_group4.fragments.groupmanager.Group;
 import com.example.csis4175_group4.fragments.groupmanager.GroupListFragment;
+import com.example.csis4175_group4.fragments.groupmanager.Member;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,12 +91,23 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
                     Group group = child.getValue(Group.class);
 
                     //check if a group of Groups is in group of current user
-                    //means current user can access to own group or admin group
+                    //means current user can access to own group or admin of the group
                     Log.d("AlbumGroupFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
                     Log.d("AlbumGroupFragment", "group.getId2: " + group.getId());
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
                             Log.d("AlbumGroupFragment", "userGroupList.get(i): " + userGroupList.get(i));
+                            groupList.add(group);
+                        }
+                    }
+
+                    //Todo
+                    //check if current user is a member of group in Groups DB.
+                    //If user is member, add the group into groupList for making group for album
+                    HashMap<String, Member> members = group.getMembers();
+                    for(Member m : members.values()) {
+                        if(m.getUid().equals(mFirebaseUser.getUid()) &&
+                                !groupList.contains(group.getId())) {
                             groupList.add(group);
                         }
                     }
@@ -120,15 +133,24 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
 
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Album album = child.getValue(Album.class);
-//                    albumList.add(album);
+
+//                    //check if a album of Albums is in album of current user
+//                    //means current user can access to own album or admin of the group
+//                    Log.d("AlbumListFragment", "userAlbumList2: " + userGroupList.contains(album.getGroupId()));
+//                    Log.d("AlbumListFragment", "album.getId2: " + album.getId());
+//                    for(int i = 0; i < userGroupList.size(); i++) {
+//                        if (userGroupList.get(i).equals(album.getGroupId())) { // check owner of album
+//                            Log.d("AlbumListFragment", "userAlbumList.get(i): " + userGroupList.get(i));
+//                            albumList.add(album);
+//                        }
+//                    }
+
 
                     //check if a album of Albums is in album of current user
-                    //means current user can access to own album or admin album
-                    Log.d("AlbumListFragment", "userAlbumList2: " + userGroupList.contains(album.getGroupId()));
-                    Log.d("AlbumListFragment", "album.getId2: " + album.getId());
-                    for(int i = 0; i < userGroupList.size(); i++) {
-                        if (userGroupList.get(i).equals(album.getGroupId())) { // check owner of album
-                            Log.d("AlbumListFragment", "userAlbumList.get(i): " + userGroupList.get(i));
+                    //means current user can access to own album or admin of the group
+                    for(int i = 0; i < groupList.size(); i++) {
+                        if (groupList.get(i).getId().equals(album.getGroupId())) { // check owner of album
+                            Log.d("AlbumListFragment", "userAlbumList.get(i): " + groupList.get(i));
                             albumList.add(album);
                         }
                     }
