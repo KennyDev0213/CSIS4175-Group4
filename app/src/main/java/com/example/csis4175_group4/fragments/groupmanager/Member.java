@@ -4,31 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Member {
-    private String id; //member key
-    private String uid; //user id
+    private String uid; //member key, uid
     private String email;
     private String role;
 
     public Member() {
-        id = "";
         uid = "";
         email = "";
         role = "";
     }
 
-    public Member(String id, String uid, String email, String role) {
-        this.id = id;
+    public Member(String uid, String email, String role) {
         this.uid = uid;
         this.email = email;
         this.role = role;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUid() {
@@ -57,7 +46,6 @@ public class Member {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
         result.put("uid", uid);
         result.put("email", email);
         result.put("role", role);

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_album"
+    app:startDestination="@id/albumListFragment">
+
+    <fragment
+        android:id="@+id/albumListFragment"
+        android:name="com.example.csis4175_group4.fragments.albummanager.AlbumListFragment"
+        android:label="fragment_album_list"
+        tools:layout="@layout/fragment_album_list">
+        <action
+            android:id="@+id/action_albumListFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+        <action
+            android:id="@+id/action_albumListFragment_to_newAlbumFragment"
+            app:destination="@id/newAlbumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.csis4175_group4.fragments.albummanager.AlbumDetailFragment"
+        android:label="fragment_album_detail"
+        tools:layout="@layout/fragment_album_detail">
+        <action
+            android:id="@+id/action_albumDetailFragment_to_albumListFragment"
+            app:destination="@id/albumListFragment" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_albumGroupFragment"
+            app:destination="@id/albumGroupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newAlbumFragment"
+        android:name="com.example.csis4175_group4.fragments.albummanager.NewAlbumFragment"
+        android:label="fragment_new_album"
+        tools:layout="@layout/fragment_new_album">
+        <action
+            android:id="@+id/action_newAlbumFragment_to_albumListFragment"
+            app:destination="@id/albumListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumGroupFragment"
+        android:name="com.example.csis4175_group4.fragments.albummanager.AlbumGroupFragment"
+        android:label="fragment_album_group"
+        tools:layout="@layout/fragment_album_group">
+        <action
+            android:id="@+id/action_albumGroupFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+
+</navigation>

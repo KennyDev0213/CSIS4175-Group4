@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSIS4175Group4">
         <activity
+            android:name=".viewmodels.ForgetPassword"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -26,7 +29,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true" />

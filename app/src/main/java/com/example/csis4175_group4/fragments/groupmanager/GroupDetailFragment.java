@@ -145,18 +145,18 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
 
     @Override
     public void onListItemDelete(Member member, int position) {
-        Log.d("GroupListFragment", "Delete Position: " + memberList.get(position).getId());
-        Log.d("GroupListFragment", "Delete Member name: " + member.getId());
+        Log.d("GroupListFragment", "Delete Position: " + memberList.get(position).getUid());
+        Log.d("GroupListFragment", "Delete Member name: " + member.getUid());
 
         memberList.remove(position);
         memberListAdapter.setMemberList(memberList);
 
-        mFirebaseDatabase_Group_Members.child(member.getId()).removeValue();
-        mFirebaseDatabase_Users.child(member.getUid()).child("groups").child(groupSharedViewModel.getSelectedGroupId().getValue()).removeValue();
+        mFirebaseDatabase_Group_Members.child(member.getUid()).removeValue();
+        //mFirebaseDatabase_Users.child(member.getUid()).child("groups").child(groupSharedViewModel.getSelectedGroupId().getValue()).removeValue();
 
         Group group = groupSharedViewModel.getSelectedGroup().getValue();
         HashMap<String, Member> memberList = group.getMembers();
-        memberList.remove(member.getId());
+        memberList.remove(member.getUid());
         group.setMembers(memberList);
         groupSharedViewModel.setSelectedGroup(group);
     }
