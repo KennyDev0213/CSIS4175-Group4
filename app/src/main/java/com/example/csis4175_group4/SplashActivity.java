@@ -29,16 +29,15 @@ SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                //testing purpose, remove!
+                Intent main;
                 if(User != null){
-                    Intent main = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(main);
-                    finish();
+                    main = new Intent(SplashActivity.this, MainActivity.class);
                 }else{
-                    Intent main = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(main);
-                    finish();
+                    main = new Intent(SplashActivity.this, LoginActivity.class);
                 }
-
+                startActivity(main);
+                finish();
             }
         }, 3000);
 

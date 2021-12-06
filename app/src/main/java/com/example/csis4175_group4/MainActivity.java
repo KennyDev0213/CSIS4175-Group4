@@ -28,15 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
         appView = new ViewModelProvider(this).get(AppViewModel.class);
 
-        //if user is not logged in, then move to the login screen
-        if(!appView.isLoggedIn()){
-            Intent loginActivity = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(loginActivity);
-            finish();
-            return;
-        }
-
         //initialize the recycler view (menu)
+        menu = findViewById(R.id.main_menu);
+
         Resources r = getResources();
         String[] Titles = r.getStringArray(R.array.option_texts);
 
@@ -45,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 new Intent(MainActivity.this, PhotoCamera.class), //Camera Activity
                 new Intent(MainActivity.this, PictureManagerActivity.class), //Photos Manager
                 new Intent(MainActivity.this, GroupManagerActivity.class), //Group Manager
+                new Intent(MainActivity.this, AlbumManagerActivity.class) //Album Manager
         };
 
         //the option classes to initialize
@@ -52,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 new Option(Titles[0], R.drawable.ic_baseline_camera_alt_24, options_actvities[0]), //Camera option
                 new Option(Titles[1], R.drawable.ic_baseline_image_24, options_actvities[1]), //Photos option
                 new Option(Titles[2], R.drawable.ic_baseline_family_group_24, options_actvities[2]), //Group option
+                new Option(Titles[3], R.drawable.ic_baseline_photo_album_24, options_actvities[3])
         };
-
-        menu = findViewById(R.id.main_menu);
 
         menu.setAdapter(new MenuAdaptor(this, options));
         menu.setLayoutManager(new LinearLayoutManager(this));

@@ -31,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:inputType="textNoSuggestions" />
+                android:inputType="textNoSuggestions"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <ImageButton
                 android:id="@+id/imgBtnSearchMember"
@@ -39,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="0.2"
-                android:src="@drawable/ic_baseline_search_24" />
+                android:src="@drawable/ic_baseline_search_24"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 
@@ -72,12 +74,28 @@
                 android:text="general" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/btnAddMember"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Add Member" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAddMember"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="80dp"
+                android:text="Add Member" />
+
+            <Button
+                android:id="@+id/btnCloseMember"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:text="Close" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

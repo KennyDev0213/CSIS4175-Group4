@@ -31,15 +31,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="0.9"
-                android:inputType="textNoSuggestions" />
+                android:inputType="textNoSuggestions"
+                tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnAddNewGroup"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Add Group" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAddNewGroup"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="80dp"
+                android:text="Add Group" />
+
+            <Button
+                android:id="@+id/btnCloseNewGroup"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:text="Close" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

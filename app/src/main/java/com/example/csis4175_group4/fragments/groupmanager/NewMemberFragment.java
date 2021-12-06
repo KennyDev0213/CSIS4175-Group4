@@ -47,8 +47,6 @@ public class NewMemberFragment extends Fragment {
     private DatabaseReference mFirebaseDatabase_Users;
     private FirebaseUser mFirebaseUser;
 
-//    private String inputEmail;
-
     public NewMemberFragment() {
         // Required empty public constructor
     }
@@ -85,7 +83,6 @@ public class NewMemberFragment extends Fragment {
 
                 for(DataSnapshot child: snapshot.getChildren()) {
                     User user = child.getValue(User.class);
-                    Log.d("NEWMEMBERFRAG", "userList.add " + user.getUsername());
                     userList.add(user);
                 }
             }
@@ -103,28 +100,18 @@ public class NewMemberFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        //get number of member
-//        int numberOfMember = 0;
-//        if(getArguments() != null) {
-//            numberOfMember = getArguments().getInt("NUMBER_OF_MEMBER");
-//            Log.d("NEWMEMBERFRAG", "The number of member is " + numberOfMember);
-//        }
-
         EditText txtViewNewMemberEmail = view.findViewById(R.id.txtViewNewMemberEmail);
         ImageButton imgBtnSearchMember = view.findViewById(R.id.imgBtnSearchMember);
         TextView txtViewSearchResult = view.findViewById(R.id.txtViewSearchResult);
         RadioGroup rdoRoleGroup = view.findViewById(R.id.rdoRoleGroup);
         Button btnAddMember = view.findViewById(R.id.btnAddMember);
-
-//        inputEmail = txtViewNewMemberEmail.getText().toString().trim();
+        Button btnCloseMember = view.findViewById(R.id.btnCloseMember);
 
         // Search user by email from the users info registered in the Firebase
         imgBtnSearchMember.setOnClickListener((View v) -> {
             boolean isSignUpUser = false;
-            //User user = null;
-            Log.d("NEWMEMBERFRAG", "input email: " + txtViewNewMemberEmail.getText().toString().trim());
+
             for(int i=0; i < userList.size(); i++) {
-                Log.d("NEWMEMBERFRAG", "userList.email: " + userList.get(i).getEmail());
                 if (txtViewNewMemberEmail.getText().toString().trim().equals(userList.get(i).getEmail())) {
                     isSignUpUser = true;
                     searchedUser = userList.get(i);
@@ -162,18 +149,7 @@ public class NewMemberFragment extends Fragment {
                 return;
             }
 
-
-            Log.d("NEWMEMBERFRAG", "userList.size " + userList.size());
-
-             //add group info into Users of Firebase
-//            Map<String, Object> userGroup = new HashMap<>();
-//            userGroup.put(groupSharedViewModel.getSelectedGroup().getValue().getId(),
-//                    groupSharedViewModel.getSelectedGroup().getValue().getId());
-//            mFirebaseDatabase_Users.child(searchedUser.getUid()).child("groups").updateChildren(userGroup);
-
-
             // add member into group of Firebase
-            //String key = mFirebaseDatabase_Group_Members.push().getKey();
             String key = searchedUser.getUid();
             Member member = new Member(key, txtViewNewMemberEmail.getText().toString().trim(), inputRole);
             Map<String, Object> memberValues = member.toMap();
@@ -182,6 +158,12 @@ public class NewMemberFragment extends Fragment {
             childUpdates.put(key, memberValues);
             mFirebaseDatabase_Group_Members.updateChildren(childUpdates);
 
+            NavHostFragment.findNavController(NewMemberFragment.this)
+                    .navigate(R.id.action_newMemberFragment_to_GroupDetailFragment);
+        });
+
+        // Close
+        btnCloseMember.setOnClickListener((View v) -> {
             NavHostFragment.findNavController(NewMemberFragment.this)
                     .navigate(R.id.action_newMemberFragment_to_GroupDetailFragment);
         });

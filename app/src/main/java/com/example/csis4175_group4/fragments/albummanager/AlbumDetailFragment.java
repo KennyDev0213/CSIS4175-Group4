@@ -187,9 +187,6 @@ public class AlbumDetailFragment extends Fragment implements PhotoListAdapter.It
 
     @Override
     public void onListItemUpdate(Photo photo, int position) {
-        Log.d(TAG, "Click Position: " + position);
-        Log.d(TAG, "Click Photo id: " + photo.getId());
-
         albumSharedViewModel.setSelectedPhoto(photo);
         albumSharedViewModel.setSelectedPhotoId(photoList.get(position).getId());
 
@@ -201,10 +198,6 @@ public class AlbumDetailFragment extends Fragment implements PhotoListAdapter.It
 
     @Override
     public void onListItemDelete(Photo photo, int position) {
-        Log.d("AlbumListFragment", "Delete Position: " + photoList.get(position).getId());
-        Log.d("AlbumListFragment", "Delete Photo id: " + photo.getId());
-        Log.d("AlbumListFragment", "mFirebaseUser user id: " + mFirebaseUser.getUid());
-
         albumSharedViewModel.setSelectedPhoto(photo);
         albumSharedViewModel.setSelectedPhotoId(photoList.get(position).getId());
 

@@ -91,11 +91,8 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
                     //check if a group of Groups is in group of current user
                     //means current user can access to own group or admin group
-                    Log.d("GroupListFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
-                    Log.d("GroupListFragment", "group.getId2: " + group.getId());
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
-                            Log.d("GroupListFragment", "userGroupList.get(i): " + userGroupList.get(i));
                             groupList.add(group);
                         }
                     }
@@ -223,8 +220,6 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
     @Override
     public void onListItemClick(Group group, int position) {
-        Log.d("GroupListFragment", "Click Position: " + position);
-        Log.d("GroupListFragment", "Click Group name: " + group.getName());
         groupSharedViewModel.setSelectedGroup(group);
         groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
 
@@ -241,12 +236,6 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
     @Override
     public void onListItemDelete(Group group, int position) {
-        Log.d("GroupListFragment", "Delete Position: " + groupList.get(position).getId());
-        Log.d("GroupListFragment", "Delete Group name: " + group.getName());
-        Log.d("GroupListFragment", "mFirebaseUser user id: " + mFirebaseUser.getUid());
-        Log.d("GroupListFragment", "mFirebaseUser user group id: " + mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").child(group.getId()));
-        Log.d("GroupListFragment", "mFirebaseUser group id: " + mFirebaseDatabase_Group.child(group.getId()));
-
 
         // check validation if there is album using the group id that is going to be deleted
         // if there is a album, cannot remove the group

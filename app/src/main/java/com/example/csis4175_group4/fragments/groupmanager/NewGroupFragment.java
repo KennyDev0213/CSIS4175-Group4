@@ -63,13 +63,6 @@ public class NewGroupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        //get number of group()
-//        int numberOfGroup = 0;
-//        if(getArguments() != null) {
-//            numberOfGroup = getArguments().getInt("NUMBER_OF_GROUP");
-//            Log.d("NEWGROUPFRAG", "The number of group is " + numberOfGroup);
-//        }
-
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
@@ -91,30 +84,17 @@ public class NewGroupFragment extends Fragment {
             mFirebaseDatabase_Group.updateChildren(childUpdates);
 
 
-//            mFirebaseDatabase_Users.child(userid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        // add current user into group as member(admin) of the group
-//                        String email = task.getResult().child("email").getValue().toString();
-//                        Member member = new Member(userid, email, "admin");
-//                        Map<String, Object> memberValues = member.toMap();
-//                        Map<String, Object> childMemberUpdates = new HashMap<>();
-//
-//                        childMemberUpdates.put(userid, memberValues);
-//                        mFirebaseDatabase_Group.child(groupid).child("members").updateChildren(childMemberUpdates);
-//                    }
-//                    else {
-//                        Log.e("firebase", "Error getting data", task.getException());
-//                    }
-//                }
-//            });
-
             // add group id into user of Users of Firebase
             Map<String, Object> userGroup = new HashMap<>();
             userGroup.put(groupid, groupid);
             mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").updateChildren(userGroup);
 
+            NavHostFragment.findNavController(NewGroupFragment.this)
+                    .navigate(R.id.action_newGroupFragment_to_GroupListFragment);
+        });
+
+        Button btnCloseNewGroup = view.findViewById(R.id.btnCloseNewGroup);
+        btnCloseNewGroup.setOnClickListener((View v) -> {
             NavHostFragment.findNavController(NewGroupFragment.this)
                     .navigate(R.id.action_newGroupFragment_to_GroupListFragment);
         });
