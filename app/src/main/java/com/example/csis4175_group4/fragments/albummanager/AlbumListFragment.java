@@ -22,6 +22,8 @@ import com.example.csis4175_group4.R;
 import com.example.csis4175_group4.fragments.groupmanager.Group;
 import com.example.csis4175_group4.fragments.groupmanager.GroupListFragment;
 import com.example.csis4175_group4.fragments.groupmanager.Member;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -244,6 +246,16 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
         Log.d("AlbumListFragment", "mFirebaseUser user id: " + mFirebaseUser.getUid());
         Log.d("AlbumListFragment", "mFirebaseUser user album id: " + mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("albums").child(album.getId()));
         Log.d("AlbumListFragment", "mFirebaseUser album id: " + mFirebaseDatabase_Albums.child(album.getId()));
+
+        // check validation for group owner, not admin
+        // group owner can only change group of the album to other group
+        if (userGroupList.contains(album.getGroupId()) == false) {
+
+            Toast.makeText(this.getContext(),
+                    "You're not group owner that was made this group.\nGroup owner can only delete the album.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         albumSharedViewModel.setSelectedAlbum(album);
         albumSharedViewModel.setSelectedAlbumId(albumList.get(position).getId());
