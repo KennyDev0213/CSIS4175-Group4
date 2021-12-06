@@ -38,7 +38,7 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
     List<String> userGroupList;
     List<Group> groupList;
-    List<Album> AllAlbumLists;
+    List<Album> allAlbumLists;
 
     RecyclerView recyclerView;
     GroupListAdapter groupListAdapter;
@@ -119,9 +119,11 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         mFirebaseDatabase_Albums.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                allAlbumLists.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Album album = child.getValue(Album.class);
-                    AllAlbumLists.add(album);
+                    allAlbumLists.add(album);
                 }
             }
             @Override
@@ -167,7 +169,7 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         recyclerView.setAdapter((groupListAdapter));
 
         userGroupList = new ArrayList<>();
-        AllAlbumLists = new ArrayList<>();
+        allAlbumLists = new ArrayList<>();
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -191,7 +193,7 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                         readAllAlbumListData(new AllAlbumListCallback() {
                             @Override
                             public void onCallback(List<Album> list) {
-                                AllAlbumLists = list;
+                                allAlbumLists = list;
                             }
                         });
                     }
@@ -228,8 +230,8 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
         // check validation if there is album using the group id that is going to be deleted
         // if there is a album, cannot remove the group
-        for(int i = 0; i < AllAlbumLists.size(); i++) {
-            if (group.getId().equals(AllAlbumLists.get(i).getGroupId())) {
+        for(int i = 0; i < allAlbumLists.size(); i++) {
+            if (group.getId().equals(allAlbumLists.get(i).getGroupId())) {
 
                 Toast.makeText(GroupListFragment.this.getContext(),
                         "You cannot delete the group because there is a album using this group.\nPlease delete the album first.",
