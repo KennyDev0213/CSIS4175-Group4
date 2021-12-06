@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "449720841484",
-    "project_id": "csis4175-group4",
-    "storage_bucket": "csis4175-group4.appspot.com"
+    "project_number": "147984677190",
+    "project_id": "fir-csis4175",
+    "storage_bucket": "fir-csis4175.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:449720841484:android:58041de5f8d0d3fe7b8529",
+        "mobilesdk_app_id": "1:147984677190:android:30405e72c0489e3d684d47",
         "android_client_info": {
           "package_name": "com.example.csis4175_group4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "449720841484-8kpbgkrdp3kqijhup9rntet6jk3vi52c.apps.googleusercontent.com",
+          "client_id": "147984677190-3o81vp8j9221qbg7rfs1ah0ob6nhept4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBvtAwG81m_QAjC0mSj8ughWaiVoa8xId4"
+          "current_key": "AIzaSyAA7-kD_q9Ryf4cR6xl1vwjtbUrCk3HOs0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "449720841484-8kpbgkrdp3kqijhup9rntet6jk3vi52c.apps.googleusercontent.com",
+              "client_id": "147984677190-3o81vp8j9221qbg7rfs1ah0ob6nhept4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

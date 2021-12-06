@@ -64,4 +64,7 @@
     <string name="profileCity">City</string>
     <string name="profileCountry">Country</string>
     <string name="profileOccupation">Occupation</string>
+    <string name="pictures">Pictures</string>
+    <string name="load_the_picture">Load the picture</string>
+    <string name="edit_the_picture">Edit the picture</string>
 </resources>
