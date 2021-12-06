@@ -107,9 +107,9 @@ public class SignupActivity extends AppCompatActivity {
                                 }
                             }
                         });
-        Toast.makeText(getApplicationContext(),
-                "You have successful registered!",
-                Toast.LENGTH_SHORT).show();
+//         Toast.makeText(getApplicationContext(),
+//                 "You have successful registered!",
+//                 Toast.LENGTH_SHORT).show();
 
     }
 
