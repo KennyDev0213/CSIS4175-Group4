@@ -71,7 +71,6 @@ public class AlbumGroupFragment extends Fragment {
 
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
-                            Log.d("AlbumGroupFragment", "userGroupList: " + child.getKey());
                         }
 
                         callback.onCallback(userGroupList);
@@ -79,7 +78,6 @@ public class AlbumGroupFragment extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
     }
@@ -99,11 +97,8 @@ public class AlbumGroupFragment extends Fragment {
 
                     //check if a group of Groups is in group of current user
                     //means current user can access to own group or admin of the group
-                    Log.d("AlbumGroupFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
-                    Log.d("AlbumGroupFragment", "group.getId2: " + group.getId());
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
-                            Log.d("AlbumGroupFragment", "userGroupList.get(i): " + userGroupList.get(i));
                             groupList.add(group);
                         }
                     }

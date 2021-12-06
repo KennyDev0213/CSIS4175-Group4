@@ -19,6 +19,7 @@
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_album_manager.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_forget_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_group_manager.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_photo_camera.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_picture_manager.xml" value="0.25416666666666665" />
@@ -27,6 +28,8 @@
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/activity_user_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/fragment_album_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/fragment_album_group.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/fragment_new_photo.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4Part5/app/src/main/res/layout/layout_photo_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4part2/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.2703125" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4part2/app/src/main/res/drawable/ic_baseline_detail_24.xml" value="0.2703125" />
         <entry key="..\:/Users/deosi/AndroidStudioProjects/CSIS4175-Group4part2/app/src/main/res/drawable/ic_baseline_family_group_24.xml" value="0.2703125" />

@@ -15,7 +15,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 //Code to retrieve photos
 public class PictureManagerActivity extends AppCompatActivity {
-    ImageView rImage;
+    ImageView image1;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -42,6 +42,9 @@
         <activity
             android:name=".UserProfileActivity"
             android:exported="true" />
+        <activity
+            android:name=".PhotoCamera"
+            android:exported="true" />
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -10,6 +10,7 @@
         <item>Camera</item>
         <item>Photos</item>
         <item>Groups</item>
+        <item>Albums</item>
     </string-array>
 
     <!--Login Activity Strings-->
