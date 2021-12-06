@@ -2,6 +2,7 @@ package com.example.csis4175_group4;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -19,19 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView menu;
 
-    private final Intent[] options_actvities = {
-            new Intent(MainActivity.this, PhotoCamera.class), //Camera Activity
-            new Intent(MainActivity.this, PictureManagerActivity.class), //Photos Manager
-            new Intent(MainActivity.this, GroupManagerActivity.class), //Group Manager
-    };
-
-    Resources r = getResources();
-    String[] Titles = r.getStringArray(R.array.option_texts);
-    private final Option[] options = {
-        new Option(Titles[0], R.drawable.ic_baseline_camera_alt_24, options_actvities[0]), //Camera option
-        new Option(Titles[1], R.drawable.ic_baseline_image_24, options_actvities[1]), //Photos option
-        new Option(Titles[2], R.drawable.ic_baseline_family_group_24, options_actvities[2]), //Group option
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +36,27 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        //initialize the recycler view
+        //initialize the recycler view (menu)
+        Resources r = getResources();
+        String[] Titles = r.getStringArray(R.array.option_texts);
+
+        //activity intents, what will be used when an option is selected
+        final Intent[] options_actvities = {
+                new Intent(MainActivity.this, PhotoCamera.class), //Camera Activity
+                new Intent(MainActivity.this, PictureManagerActivity.class), //Photos Manager
+                new Intent(MainActivity.this, GroupManagerActivity.class), //Group Manager
+        };
+
+        //the option classes to initialize
+        final Option[] options = {
+                new Option(Titles[0], R.drawable.ic_baseline_camera_alt_24, options_actvities[0]), //Camera option
+                new Option(Titles[1], R.drawable.ic_baseline_image_24, options_actvities[1]), //Photos option
+                new Option(Titles[2], R.drawable.ic_baseline_family_group_24, options_actvities[2]), //Group option
+        };
+
         menu = findViewById(R.id.main_menu);
 
         menu.setAdapter(new MenuAdaptor(this, options));
-
+        menu.setLayoutManager(new LinearLayoutManager(this));
     }
 }

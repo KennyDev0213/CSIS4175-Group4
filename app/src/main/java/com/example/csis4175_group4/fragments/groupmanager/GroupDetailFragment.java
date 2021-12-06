@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.csis4175_group4.GroupManagerActivity;
 import com.example.csis4175_group4.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 public class GroupDetailFragment extends Fragment implements MemberListAdapter.ItemClickListener{
 
+    private String currentUserRole;
     private List<Member> memberList;
     private EditText txtViewGroupNameHeader;
     private RecyclerView recyclerView;
@@ -42,7 +45,7 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     private GroupViewModel groupSharedViewModel;
 
     private FirebaseDatabase mFirebaseInstance;
-    private DatabaseReference mFirebaseDatabase_Group;
+    private DatabaseReference mFirebaseDatabase_Groups;
     private DatabaseReference mFirebaseDatabase_Group_Members;
     private DatabaseReference mFirebaseDatabase_Users;
     private FirebaseUser mFirebaseUser;
@@ -75,6 +78,8 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        boolean isGroupOwner = false;
+        currentUserRole = "";
         memberList = new ArrayList<>();
         memberListAdapter = new MemberListAdapter(memberList);
         memberListAdapter.setListener(this);
@@ -89,9 +94,11 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
         groupSharedViewModel = new ViewModelProvider(requireActivity()).get(GroupViewModel.class);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
+        mFirebaseDatabase_Groups = mFirebaseInstance.getReference("Groups");
         mFirebaseDatabase_Group_Members = mFirebaseInstance.getReference("Groups").child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("members");
         mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
+
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         groupSharedViewModel.getSelectedGroup().observe(getViewLifecycleOwner(), new Observer<Group>() {
             @Override
@@ -100,6 +107,7 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
                 Log.d("GroupDetailFragment", "Group Name: " + groupSharedViewModel.getSelectedGroup().getValue().getName());
 
                 txtViewGroupNameHeader.setText(groupSharedViewModel.getSelectedGroup().getValue().getName());
+
                 mFirebaseDatabase_Group_Members.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,6 +116,21 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
                             memberList.add(member);
                         }
                         memberListAdapter.setMemberList(memberList);
+
+
+                        // check validation if current user is general group member
+                        // if the user is the general user, the user cannot any operations such as deletion and update in the group.
+                        currentUserRole = "";
+                        if(groupSharedViewModel.isGroupOwner()) {
+                            currentUserRole = "owner";
+                        } else {
+                            for (int i = 0; i < memberList.size(); i++) {
+                                if (memberList.get(i).getUid().equals(mFirebaseUser.getUid())) {
+                                    currentUserRole = memberList.get(i).getRole();
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     @Override
@@ -119,10 +142,20 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
             }
         });
 
+
+
         EditText txtViewGroupName = view.findViewById(R.id.txtViewGroupNameHeader);
         Button btnRenameGroup = view.findViewById(R.id.btnRenameGroup);
         btnRenameGroup.setOnClickListener((View v) -> {
-            mFirebaseDatabase_Group
+
+            if(currentUserRole.equals("general") || currentUserRole.equals("")) {
+                Toast.makeText(GroupDetailFragment.this.getContext(),
+                        "You cannot change the group name because you are general member in this group.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            mFirebaseDatabase_Groups
                     .child(""+groupSharedViewModel.getSelectedGroupId().getValue()).child("name") //group name
                     .setValue(txtViewGroupName.getText().toString());
 
@@ -132,6 +165,15 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
 
         FloatingActionButton fabAddMember = view.findViewById(R.id.fabAddMember);
         fabAddMember.setOnClickListener((View v) -> {
+
+            if(currentUserRole.equals("general") || currentUserRole.equals("")) {
+                Toast.makeText(GroupDetailFragment.this.getContext(),
+                        "You cannot add the group member because you are general member in this group.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
             Bundle bundle= new Bundle();
 //            bundle.putInt("NUMBER_OF_MEMBER", memberList.size());
             Navigation.findNavController(v).navigate(R.id.action_GroupDetailFragment_to_newMemberFragment, bundle);
@@ -147,6 +189,15 @@ public class GroupDetailFragment extends Fragment implements MemberListAdapter.I
     public void onListItemDelete(Member member, int position) {
         Log.d("GroupListFragment", "Delete Position: " + memberList.get(position).getUid());
         Log.d("GroupListFragment", "Delete Member name: " + member.getUid());
+
+        // general member cannot delete other member
+        if( (member.getUid().equals(mFirebaseUser.getUid()) == false) &&
+                (currentUserRole.equals("general") || currentUserRole.equals(""))){
+            Toast.makeText(GroupDetailFragment.this.getContext(),
+                    "You cannot remove other group member because you are general member in this group.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         memberList.remove(position);
         memberListAdapter.setMemberList(memberList);
