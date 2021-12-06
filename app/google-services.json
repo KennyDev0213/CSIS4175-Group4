@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "596795658195",
-    "firebase_url": "https://projectlogindb-default-rtdb.firebaseio.com/",
-    "project_id": "projectlogindb",
-    "storage_bucket": "projectlogindb.appspot.com"
+    "project_number": "449720841484",
+    "project_id": "csis4175-group4",
+    "storage_bucket": "csis4175-group4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:596795658195:android:882ae018bea61d14b4a926",
+        "mobilesdk_app_id": "1:449720841484:android:58041de5f8d0d3fe7b8529",
         "android_client_info": {
           "package_name": "com.example.csis4175_group4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "596795658195-svi769ja18rqa0ikbrt9s5s3no1fkqel.apps.googleusercontent.com",
+          "client_id": "449720841484-8kpbgkrdp3kqijhup9rntet6jk3vi52c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCa8hE3u2VjfaO6r6WBZqHoouERTKpWV8I"
+          "current_key": "AIzaSyBvtAwG81m_QAjC0mSj8ughWaiVoa8xId4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "596795658195-svi769ja18rqa0ikbrt9s5s3no1fkqel.apps.googleusercontent.com",
+              "client_id": "449720841484-8kpbgkrdp3kqijhup9rntet6jk3vi52c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
