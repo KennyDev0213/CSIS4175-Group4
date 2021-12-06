@@ -57,4 +57,10 @@
 
     <string name="group_list_fragment_label">Group List Fragment</string>
     <string name="group_detail_fragment_label">Group Detail Fragment</string>
+    
+    <!--    user profile-->
+    <string name="profileName">User Name</string>
+    <string name="profileCity">City</string>
+    <string name="profileCountry">Country</string>
+    <string name="profileOccupation">Occupation</string>
 </resources>

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_albumDetailFragment_to_albumGroupFragment"
             app:destination="@id/albumGroupFragment" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_newPhotoFragment"
+            app:destination="@id/newPhotoFragment" />
     </fragment>
     <fragment
         android:id="@+id/newAlbumFragment"
@@ -45,6 +48,15 @@
         tools:layout="@layout/fragment_album_group">
         <action
             android:id="@+id/action_albumGroupFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPhotoFragment"
+        android:name="com.example.csis4175_group4.fragments.albummanager.NewPhotoFragment"
+        android:label="fragment_new_photo"
+        tools:layout="@layout/fragment_new_photo" >
+        <action
+            android:id="@+id/action_newPhotoFragment_to_albumDetailFragment"
             app:destination="@id/albumDetailFragment" />
     </fragment>
 
