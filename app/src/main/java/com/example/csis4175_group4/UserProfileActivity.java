@@ -110,7 +110,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Object o) {
 
-                                            Intent intent = new Intent(UserProfileActivity.this,MainActivity.class);
+                                            Intent intent = new Intent(UserProfileActivity.this,PictureManagerActivity.class);
                                             startActivity(intent);
                                             Toast.makeText(UserProfileActivity.this, "Setup profile complete", Toast.LENGTH_SHORT).show();
                                         }
