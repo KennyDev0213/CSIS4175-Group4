@@ -11,7 +11,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.TimeUnit;
 
-public class SplashActivity extends AppCompatActivity {
+public class
+SplashActivity extends AppCompatActivity {
     FirebaseAuth Auth;
     FirebaseUser User;
     @Override

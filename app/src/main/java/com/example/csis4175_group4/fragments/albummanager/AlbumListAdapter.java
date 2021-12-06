@@ -14,7 +14,8 @@ import com.example.csis4175_group4.R;
 
 import java.util.List;
 
-public class AlbumListAdapter extends RecyclerView.Adapter{
+public class
+AlbumListAdapter extends RecyclerView.Adapter{
     private List<Album> albumList;
     private ItemClickListener mListener;
 
