@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.GroupManagerActivity;
 import com.example.csis4175_group4.R;
+import com.example.csis4175_group4.fragments.albummanager.Album;
+import com.example.csis4175_group4.fragments.albummanager.AlbumListFragment;
 import com.example.csis4175_group4.viewmodels.AppViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,8 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
 
     List<String> userGroupList;
     List<Group> groupList;
+    List<Album> AllAlbumLists;
+
     RecyclerView recyclerView;
     GroupListAdapter groupListAdapter;
     private GroupViewModel groupSharedViewModel;
@@ -43,6 +47,7 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase_Group;
     private DatabaseReference mFirebaseDatabase_Users;
+    private DatabaseReference mFirebaseDatabase_Albums;
     private FirebaseUser mFirebaseUser;
 
     private static final String TAG = GroupManagerActivity.class.getSimpleName();
@@ -55,6 +60,8 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        userGroupList.clear();
+
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
                             Log.d("GroupListFragment", "userGroupList: " + child.getKey());
@@ -77,6 +84,8 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         mFirebaseDatabase_Group.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                groupList.clear();
+
                 for(DataSnapshot child : snapshot.getChildren()) {
                     Group group = child.getValue(Group.class);
 
@@ -98,6 +107,25 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    public interface AllAlbumListCallback {
+        void onCallback(List<Album> list);
+    }
+
+    public void readAllAlbumListData(GroupListFragment.AllAlbumListCallback callback) {
+        mFirebaseDatabase_Albums.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child : snapshot.getChildren()) {
+                    Album album = child.getValue(Album.class);
+                    AllAlbumLists.add(album);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
@@ -139,11 +167,13 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         recyclerView.setAdapter((groupListAdapter));
 
         userGroupList = new ArrayList<>();
+        AllAlbumLists = new ArrayList<>();
 
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase_Group = mFirebaseInstance.getReference("Groups");
         mFirebaseDatabase_Users = mFirebaseInstance.getReference("Users");
+        mFirebaseDatabase_Albums = mFirebaseInstance.getReference("Albums");
 
 
         //After getting user data, get group data because of async issue
@@ -157,10 +187,19 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                     public void onCallback(List<Group> list) {
                         groupList = list;
                         groupListAdapter.setGroupList(groupList);
+
+                        readAllAlbumListData(new AllAlbumListCallback() {
+                            @Override
+                            public void onCallback(List<Album> list) {
+                                AllAlbumLists = list;
+                            }
+                        });
                     }
                 });
             }
         });
+
+
 
         FloatingActionButton fabAddGroup = view.findViewById(R.id.fabAddGroup);
         fabAddGroup.setOnClickListener((View v) -> {
@@ -185,6 +224,20 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         Log.d("GroupListFragment", "mFirebaseUser user id: " + mFirebaseUser.getUid());
         Log.d("GroupListFragment", "mFirebaseUser user group id: " + mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").child(group.getId()));
         Log.d("GroupListFragment", "mFirebaseUser group id: " + mFirebaseDatabase_Group.child(group.getId()));
+
+
+        // check validation if there is album using the group id that is going to be deleted
+        // if there is a album, cannot remove the group
+        for(int i = 0; i < AllAlbumLists.size(); i++) {
+            if (group.getId().equals(AllAlbumLists.get(i).getGroupId())) {
+
+                Toast.makeText(GroupListFragment.this.getContext(),
+                        "You cannot delete the group because there is a album using this group.\nPlease delete the album first.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
 
         groupSharedViewModel.setSelectedGroup(group);
         groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
