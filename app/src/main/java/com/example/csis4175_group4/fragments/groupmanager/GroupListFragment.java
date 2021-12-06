@@ -1,10 +1,12 @@
 package com.example.csis4175_group4.fragments.groupmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,10 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.csis4175_group4.GroupManagerActivity;
+import com.example.csis4175_group4.LoginActivity;
+import com.example.csis4175_group4.MainActivity;
 import com.example.csis4175_group4.R;
 import com.example.csis4175_group4.fragments.albummanager.Album;
 import com.example.csis4175_group4.fragments.albummanager.AlbumListFragment;
 import com.example.csis4175_group4.viewmodels.AppViewModel;
+import com.example.csis4175_group4.viewmodels.ForgetPassword;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -215,6 +220,12 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                 Bundle bundle= new Bundle();
 //                bundle.putInt("NUMBER_OF_GROUP", groupList.size());
                 Navigation.findNavController(v).navigate(R.id.action_GroupListFragment_to_newGroupFragment, bundle);
+        });
+
+        Button btn = view.findViewById(R.id.btnCloseGroupList);
+        btn.setOnClickListener((View v) -> {
+            Intent intent=new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
     }
 

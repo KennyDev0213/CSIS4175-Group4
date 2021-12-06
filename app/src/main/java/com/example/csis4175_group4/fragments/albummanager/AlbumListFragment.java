@@ -1,5 +1,6 @@
 package com.example.csis4175_group4.fragments.albummanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.csis4175_group4.AlbumManagerActivity;
+import com.example.csis4175_group4.MainActivity;
 import com.example.csis4175_group4.R;
 
 import com.example.csis4175_group4.fragments.groupmanager.Group;
-import com.example.csis4175_group4.fragments.groupmanager.GroupListFragment;
 import com.example.csis4175_group4.fragments.groupmanager.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -222,6 +224,12 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
         fabAddAlbum.setOnClickListener((View v) -> {
             Bundle bundle= new Bundle();
             Navigation.findNavController(v).navigate(R.id.action_albumListFragment_to_newAlbumFragment, bundle);
+        });
+
+        Button btn = view.findViewById(R.id.btnCloseAlbumList);
+        btn.setOnClickListener((View v) -> {
+            Intent intent=new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
     }
 
