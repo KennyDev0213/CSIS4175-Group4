@@ -70,12 +70,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this,SignupActivity.class));
         });
 
-        //add a way for user to recover forgotten information
-        this.forgotBtn.setOnClickListener(view -> {
-            //TODO implement password reset
-            Intent intent=new Intent(LoginActivity.this, ForgetPassword.class);
-            startActivity(intent);
-        });
+//         //add a way for user to recover forgotten information
+//         this.forgotBtn.setOnClickListener(view -> {
+//             //TODO implement password reset
+//             Intent intent=new Intent(LoginActivity.this, ForgetPassword.class);
+//             startActivity(intent);
+//         });
     }
 
     public void submitForm(){
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(LoginActivity.this,PictureManagerActivity.class));
+                            startActivity(new Intent(LoginActivity.this,UserProfileActivity.class));
                             finish();
                         }else{
                             Toast.makeText(LoginActivity.this,getString(R.string.auth_failed),Toast.LENGTH_LONG).show();
