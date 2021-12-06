@@ -99,6 +99,16 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
                             groupList.add(group);
                         }
                     }
+
+                    //check if current user is a member of group in Groups DB.
+                    //If user is member, add the group into groupList for making group for album
+                    HashMap<String, Member> members = group.getMembers();
+                    for(Member m : members.values()) {
+                        if(m.getUid().equals(mFirebaseUser.getUid()) &&
+                                !groupList.contains(group.getId())) {
+                            groupList.add(group);
+                        }
+                    }
                 }
                 groupListAdapter.setGroupList(groupList);
                 callback.onCallback(groupList);
@@ -217,6 +227,16 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         Log.d("GroupListFragment", "Click Group name: " + group.getName());
         groupSharedViewModel.setSelectedGroup(group);
         groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
+
+        // check owner of group
+        groupSharedViewModel.setIsGroupOwner(false);
+        for(int i = 0; i < userGroupList.size(); i++) {
+            if (userGroupList.get(i).equals(group.getId())) {
+                groupSharedViewModel.setIsGroupOwner(true);
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -240,9 +260,30 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
             }
         }
 
+        // check validation if current user is general group member
+        // if the user is the general user, the user cannot delete the group.
+        HashMap<String, Member> members = group.getMembers();
+        for(Member m : members.values()) {
+            if(m.getUid().equals(mFirebaseUser.getUid()) &&
+                m.getRole().equals("general")) {
+                Toast.makeText(GroupListFragment.this.getContext(),
+                        "You cannot delete the group because you are general member in this group.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
 
         groupSharedViewModel.setSelectedGroup(group);
         groupSharedViewModel.setSelectedGroupId(groupList.get(position).getId());
+
+        // check owner of group
+        groupSharedViewModel.setIsGroupOwner(false);
+        for(int i = 0; i < userGroupList.size(); i++) {
+            if (userGroupList.get(i).equals(group.getId())) {
+                groupSharedViewModel.setIsGroupOwner(true);
+                break;
+            }
+        }
 
         groupList.remove(position);
         groupListAdapter.setGroupList(groupList);
@@ -252,18 +293,5 @@ public class GroupListFragment extends Fragment implements GroupListAdapter.Item
         Map<String, Object> userGroup = new HashMap<>();
         userGroup.put("id", group.getId());
         mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("groups").child(group.getId()).removeValue();
-
-//        //remove added group of the user by adding member
-//        for(int i=0; i < userGroupList.size(); i++) {
-//
-//            Log.d("GroupListFragment", "==> Delete mFirebaseUser user group id: " + mFirebaseDatabase_Users.child(userGroupList.get(i))
-//                    .child("groups").child(group.getId()).getKey());
-//
-//            if( (mFirebaseDatabase_Users.child(userGroupList.get(i))
-//                    .child("groups").child(group.getId()).getKey()).equals(group.getId())) {
-//                mFirebaseDatabase_Users.child(userGroupList.get(i))
-//                        .child("groups").child(group.getId()).removeValue();
-//            }
-//        }
     }
 }

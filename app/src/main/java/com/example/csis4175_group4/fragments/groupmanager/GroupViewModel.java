@@ -8,6 +8,7 @@ public class GroupViewModel extends ViewModel {
 
     private MutableLiveData<Group> selectedGroup = new MutableLiveData<>();
     private MutableLiveData<String> selectedGroupId = new MutableLiveData<>();
+    private boolean isGroupOwner;
 
     public LiveData<Group> getSelectedGroup() {
         return selectedGroup;
@@ -23,5 +24,13 @@ public class GroupViewModel extends ViewModel {
 
     public void setSelectedGroupId(String groupId) {
         selectedGroupId.setValue(groupId);
+    }
+
+    public boolean isGroupOwner() {
+        return isGroupOwner;
+    }
+
+    public void setIsGroupOwner(boolean value) {
+        isGroupOwner = value;
     }
 }
