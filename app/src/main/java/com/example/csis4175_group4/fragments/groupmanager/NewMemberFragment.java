@@ -105,6 +105,7 @@ public class NewMemberFragment extends Fragment {
         TextView txtViewSearchResult = view.findViewById(R.id.txtViewSearchResult);
         RadioGroup rdoRoleGroup = view.findViewById(R.id.rdoRoleGroup);
         Button btnAddMember = view.findViewById(R.id.btnAddMember);
+        Button btnCloseMember = view.findViewById(R.id.btnCloseMember);
 
         // Search user by email from the users info registered in the Firebase
         imgBtnSearchMember.setOnClickListener((View v) -> {
@@ -157,6 +158,12 @@ public class NewMemberFragment extends Fragment {
             childUpdates.put(key, memberValues);
             mFirebaseDatabase_Group_Members.updateChildren(childUpdates);
 
+            NavHostFragment.findNavController(NewMemberFragment.this)
+                    .navigate(R.id.action_newMemberFragment_to_GroupDetailFragment);
+        });
+
+        // Close
+        btnCloseMember.setOnClickListener((View v) -> {
             NavHostFragment.findNavController(NewMemberFragment.this)
                     .navigate(R.id.action_newMemberFragment_to_GroupDetailFragment);
         });
