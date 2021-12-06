@@ -67,7 +67,6 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
 
                         for(DataSnapshot child: snapshot.getChildren()) {
                             userGroupList.add(child.getKey()); //group id
-                            Log.d("AlbumListFragment", "userGroupList: " + child.getKey());
                         }
 
                         callback.onCallback(userGroupList);
@@ -94,11 +93,8 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
 
                     //check if a group of Groups is in group of current user
                     //means current user can access to own group or admin of the group
-                    Log.d("AlbumGroupFragment", "userGroupList2: " + userGroupList.contains(group.getId()));
-                    Log.d("AlbumGroupFragment", "group.getId2: " + group.getId());
                     for(int i = 0; i < userGroupList.size(); i++) {
                         if (userGroupList.get(i).equals(group.getId())) { // check owner of group
-                            Log.d("AlbumGroupFragment", "userGroupList.get(i): " + userGroupList.get(i));
                             groupList.add(group);
                         }
                     }
@@ -139,7 +135,6 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
                     //means current user can access to own album or admin of the group
                     for(int i = 0; i < groupList.size(); i++) {
                         if (groupList.get(i).getId().equals(album.getGroupId())) { // check owner of album
-                            Log.d("AlbumListFragment", "userAlbumList.get(i): " + groupList.get(i));
                             albumList.add(album);
                         }
                     }
@@ -226,27 +221,18 @@ public class AlbumListFragment extends Fragment implements AlbumListAdapter.Item
         FloatingActionButton fabAddAlbum = view.findViewById(R.id.fabAddAlbum);
         fabAddAlbum.setOnClickListener((View v) -> {
             Bundle bundle= new Bundle();
-//                bundle.putInt("NUMBER_OF_GROUP", albumList.size());
             Navigation.findNavController(v).navigate(R.id.action_albumListFragment_to_newAlbumFragment, bundle);
         });
     }
 
     @Override
     public void onListItemClick(Album album, int position) {
-        Log.d("AlbumListFragment", "Click Position: " + position);
-        Log.d("AlbumListFragment", "Click Album name: " + album.getTitle());
         albumSharedViewModel.setSelectedAlbum(album);
         albumSharedViewModel.setSelectedAlbumId(albumList.get(position).getId());
     }
 
     @Override
     public void onListItemDelete(Album album, int position) {
-        Log.d("AlbumListFragment", "Delete Position: " + albumList.get(position).getId());
-        Log.d("AlbumListFragment", "Delete Album name: " + album.getTitle());
-        Log.d("AlbumListFragment", "mFirebaseUser user id: " + mFirebaseUser.getUid());
-        Log.d("AlbumListFragment", "mFirebaseUser user album id: " + mFirebaseDatabase_Users.child(mFirebaseUser.getUid()).child("albums").child(album.getId()));
-        Log.d("AlbumListFragment", "mFirebaseUser album id: " + mFirebaseDatabase_Albums.child(album.getId()));
-
         // check validation for group owner, not admin
         // group owner can only change group of the album to other group
         if (userGroupList.contains(album.getGroupId()) == false) {
