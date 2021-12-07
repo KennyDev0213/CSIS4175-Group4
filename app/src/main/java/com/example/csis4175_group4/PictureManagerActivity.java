@@ -37,61 +37,61 @@ import java.io.IOException;
 //Code to retrieve photos
 public class PictureManagerActivity extends Fragment {
 
-    int REQUEST_IMAGE_CODE = 1001;
-    int REQUEST_EXTERNAL_STORAGE_PERMISSION = 1002;
-    ImageView imageView;
-    Button btn_load;
-
-
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.activity_picture_manager, container, false);
-
-        if (ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
-
-            }
-            else{
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_PERMISSION);
-            }
-
-        } else {
-
-        }
-
-        imageView = root.findViewById(R.id.images);
-        btn_load = root.findViewById(R.id.button);
-
-        btn_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_CODE);
-            }
-        });
-
-        return root;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE_CODE){
-            Uri image = data.getData();
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
-                imageView.setImageBitmap(bitmap);
-
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+//    int REQUEST_IMAGE_CODE = 1001;
+//    int REQUEST_EXTERNAL_STORAGE_PERMISSION = 1002;
+//    ImageView imageView;
+//    Button btn_load;
+//
+//
+//    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//
+//        View root = inflater.inflate(R.layout.activity_picture_manager, container, false);
+//
+//        if (ContextCompat.checkSelfPermission( getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
+//                PackageManager.PERMISSION_GRANTED) {
+//            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
+//
+//            }
+//            else{
+//                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_PERMISSION);
+//            }
+//
+//        } else {
+//
+//        }
+//
+//        imageView = root.findViewById(R.id.images);
+//        btn_load = root.findViewById(R.id.button);
+//
+//        btn_load.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(intent, REQUEST_IMAGE_CODE);
+//            }
+//        });
+//
+//        return root;
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == REQUEST_IMAGE_CODE){
+//            Uri image = data.getData();
+//            try{
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
+//                imageView.setImageBitmap(bitmap);
+//
+//            }
+//            catch(IOException e){
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 }
